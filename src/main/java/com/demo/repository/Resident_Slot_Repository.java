@@ -24,5 +24,11 @@ public interface Resident_Slot_Repository extends JpaRepository<Resident_Slot, L
     )
     Resident_Slot findResidentSlot(String id_r_slot, String id_building);
 
-
+    @Query(
+            value = "select c.* \n" +
+                    "from area a join resident_slot c on c.id_area =  a.id_area \n" +
+                    " join building b on a.id_building = b.id_building where b.id_building = ?1",
+            nativeQuery = true
+    )
+    List<Resident_Slot> findAllSlotOfEachBuilding(String id_Building);
 }

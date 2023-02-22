@@ -10,10 +10,12 @@ import com.demo.repository.ResidentRepository;
 import com.demo.repository.Resident_Slot_Repository;
 import com.demo.service.Resident_Slot_Service;
 import com.demo.utils.request.Resident_Slot_DTO;
+import com.demo.utils.response.Customer_Slot_Response_DTO;
 import com.demo.utils.response.Resident_Slot_Response_DTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -30,6 +32,19 @@ public class Resident_Slot_Service_Impl implements Resident_Slot_Service {
     ResidentRepository residentRepository;
 
     public Resident_Slot_Response_DTO resident_slot_response_dto;
+
+    @Override
+    public List<Resident_Slot_Response_DTO> findAllSlotOfEachBuilding(String id_Building) {
+        List<Resident_Slot_Response_DTO> list = new ArrayList<>();
+        List<Resident_Slot> slotList = resident_slot_repository.findAllSlotOfEachBuilding(id_Building);
+
+        for(int i = 0; i < slotList.size(); i++)
+        {
+            Resident_Slot dto = slotList.get(i);
+            list.add(new Resident_Slot_Response_DTO(dto.getResident().getIdUser(), dto.getResident().getUser().getFullname(), dto.getResident().getUser().getEmail(), dto.getResident().getUser().getPhone(), dto.getArea().getBuilding().getId_Building(), dto.getType_Of_Vehicle(), dto.getId_R_Slot()));
+        }
+        return list;
+    }
 
     @Override
     public Resident_Slot_Response_DTO save(Resident_Slot_DTO dto) {
