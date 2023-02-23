@@ -24,4 +24,10 @@ public interface UserRepository extends JpaRepository<User, String> {
             nativeQuery = true
     )
     User findCustomerById(String idUser);
+
+    @Query(
+            value = "select u.* from users u join manager m on u.id_user = m.id_manager where m.role = ?1"
+            , nativeQuery = true
+    )
+    List<User> findSecurityByIdUser(int role);
 }

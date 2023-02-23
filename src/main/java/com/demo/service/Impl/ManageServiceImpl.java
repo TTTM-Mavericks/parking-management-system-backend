@@ -29,10 +29,7 @@ public class ManageServiceImpl implements ManageService {
 
     @Override
     public ManagerResponseDTO save(ManagerDTO dto) {
-        Manager manager = new Manager();
-        manager.setRole(dto.getRole());
-        manager.setIdUser(dto.getIdUser());
-        manager.setUser(userRepository.findById(dto.getIdUser()).get());
+        Manager manager = new Manager(dto.getIdUser(), userRepository.findById(dto.getIdUser()).get(), dto.getRole());
         return mapperedToManager(managerRepository.save(manager));
     }
 

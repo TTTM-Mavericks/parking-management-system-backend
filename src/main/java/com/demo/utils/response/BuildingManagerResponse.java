@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponseDTO {
+public class BuildingManagerResponse {
     private String id;
 
     private String fullname;
@@ -24,4 +24,5 @@ public class UserResponseDTO {
 
     private String phone;
 
+    private boolean Status_Account;
 }

@@ -13,4 +13,6 @@ public interface AreaRepository extends JpaRepository<Area, Long> {
             "where b.id_building = ?1 and a.type_of_area = ?2", nativeQuery = true)
     Area findIdAreaByIdBuilding(String id_Building, String type_of_area);
 
+
+
 }

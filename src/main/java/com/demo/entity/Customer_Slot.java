@@ -38,6 +38,17 @@ public class Customer_Slot {
         this.area = area;
     }
 
+    @Override
+    public String toString() {
+        return "Customer_Slot{" +
+                "index=" + index +
+                ", Id_C_Slot='" + Id_C_Slot + '\'' +
+                ", Type_Of_Vehicle='" + Type_Of_Vehicle + '\'' +
+                ", Status_Slots=" + Status_Slots +
+                ", area=" + area.getId_Area() +
+                '}';
+    }
+
     @ManyToOne(cascade =  CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "Id_Area")
     private Area area;

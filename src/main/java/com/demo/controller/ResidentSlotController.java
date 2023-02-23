@@ -19,11 +19,11 @@ public class ResidentSlotController {
     @Autowired
     Resident_Slot_Service resident_slot_service;
 
-    @PostMapping("/save")
-    public ResponseEntity<Resident_Slot_Response_DTO> save(@RequestBody String json) throws JsonProcessingException {
+    @PostMapping("/saveResidentSlot")
+    public ResponseEntity<Resident_Slot_Response_DTO> saveResidentSlot(@RequestBody String json) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         Resident_Slot_DTO dto = mapper.readValue(json, Resident_Slot_DTO.class);
-        return new ResponseEntity<>(resident_slot_service.save(dto), HttpStatus.OK);
+        return new ResponseEntity<>(resident_slot_service.saveResidentSlot(dto), HttpStatus.OK);
     }
 
     @GetMapping("/findBooking")

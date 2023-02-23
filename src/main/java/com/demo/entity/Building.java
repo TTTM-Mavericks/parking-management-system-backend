@@ -22,13 +22,13 @@ public class Building {
     private Integer Number_Of_Area;
 
     @Column(name = "income")
-    private Integer income;
+    private double income;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "Id_Manager", referencedColumnName = "Id_Manager", unique = true)
     private Manager manager;
 
-    public Building(String id_Building, Integer number_Of_Area, Integer income, Manager manager) {
+    public Building(String id_Building, Integer number_Of_Area, double income, Manager manager) {
         Id_Building = id_Building;
         Number_Of_Area = number_Of_Area;
         this.income = income;

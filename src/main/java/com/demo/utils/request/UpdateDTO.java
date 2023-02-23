@@ -9,12 +9,16 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaymentResidentDTO {
-    private String TypeOfPayment; // Type of Payment
+public class UpdateDTO {
+    private String fullname;
 
-    private String idUser;
+    private String password;
 
-    private String id_Building;
+    private boolean gender;
 
-    private Date dateOfPayment;
+    private Date dateofbirth;
+
+    private String email;
+
+    private String phone;
 }

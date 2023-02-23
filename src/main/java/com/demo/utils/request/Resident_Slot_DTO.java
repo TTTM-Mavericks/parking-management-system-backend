@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Resident_Slot_DTO {
+
     private String idUser; // i
 
     private String fullname;
@@ -21,4 +22,6 @@ public class Resident_Slot_DTO {
     private String type_Of_Vehicle;
 
     private String Id_R_Slot;
+
+    private boolean status_Slots;
 }

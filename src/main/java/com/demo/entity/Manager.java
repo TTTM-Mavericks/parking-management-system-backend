@@ -21,9 +21,18 @@ public class Manager {
 
     @Column(name = "Role")
     private int Role;
-    // role 1 : security
+    // role 3 : security
     // role 2: manager Area
-    // role 3: Manager
+    // role 1: Manager
+    @Column(name = "Status_Account")
+    private boolean Status_Account;
+
+    public Manager(String idUser, User user, int role) {
+        IdUser = idUser;
+        this.user = user;
+        Role = role;
+        this.Status_Account = true;
+    }
 
     @OneToOne(mappedBy = "manager")
     private Building building;

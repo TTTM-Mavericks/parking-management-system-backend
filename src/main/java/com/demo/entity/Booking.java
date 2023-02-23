@@ -54,4 +54,17 @@ public class Booking {
     @OneToOne(mappedBy = "booking")
     @JsonIgnore
     private Payment_C payment_c;
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "Id_Booking=" + Id_Booking +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", customer_slot=" + customer_slot.getId_C_Slot() +
+                ", customer=" + customer.getIdUser() +
+                '}';
+    }
 }

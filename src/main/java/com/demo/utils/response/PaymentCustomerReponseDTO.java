@@ -26,6 +26,8 @@ public class PaymentCustomerReponseDTO {
 
     private String Type_Of_Payment; // Type of Payment
 
+    private double total_of_money;
+
     private String Id_C_Invoice;
 
     private boolean Status_Invoice;

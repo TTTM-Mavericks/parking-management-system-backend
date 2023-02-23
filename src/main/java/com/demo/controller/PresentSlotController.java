@@ -1,9 +1,9 @@
 package com.demo.controller;
 
 import com.demo.service.Customer_Slot_Service;
-import com.demo.service.Resident_Slot_Service;
+import com.demo.service.PresentSlotOfEachBuilding;
 import com.demo.utils.response.Customer_Slot_Response_DTO;
-import com.demo.utils.response.Resident_Slot_Response_DTO;
+import com.demo.utils.response.PresentSlotResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +18,11 @@ import java.util.List;
 @RequestMapping("/present_slot")
 public class PresentSlotController {
     @Autowired
-    Customer_Slot_Service customer_slot_service;
-    @Autowired
-    Resident_Slot_Service resident_slot_service;
-    @GetMapping("/findAll/C/{Id_Building}")
-    public ResponseEntity<List<Customer_Slot_Response_DTO>>present_slotC(@PathVariable("Id_Building") String Id_Building)
+    PresentSlotOfEachBuilding presentSlotOfEachBuilding;
+
+    @GetMapping("/findAll/{Id_Building}")
+    public ResponseEntity<List<PresentSlotResponseDto>>present_slot(@PathVariable("Id_Building") String Id_Building)
     {
-        return new ResponseEntity<>(customer_slot_service.findAllSlotOfEachBuilding(Id_Building) , HttpStatus.OK);
-    }
-    @GetMapping("/findAll/R/{Id_Building}")
-    public ResponseEntity<List<Resident_Slot_Response_DTO>>present_slotR(@PathVariable("Id_Building") String Id_Building)
-    {
-        return new ResponseEntity<>(resident_slot_service.findAllSlotOfEachBuilding(Id_Building) , HttpStatus.OK);
+        return new ResponseEntity<>(presentSlotOfEachBuilding.findAll(Id_Building) , HttpStatus.OK);
     }
 }

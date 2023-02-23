@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MoneyResponseDTO {
+    double CAR_MONEY_BY_HOUR;
+    double BIKE_MONEY_BY_HOUR;
+    double MOTO_MONEY_BY_HOUR;
     double CAR_MONEY_BY_DAY;
     double BIKE_MONEY_BY_DAY;
     double MOTO_MONEY_BY_DAY;

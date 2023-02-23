@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Resident_Slot {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id_Index")
     private Long index;
 
@@ -25,10 +24,11 @@ public class Resident_Slot {
     private boolean Status_Slots;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "Id_Resident", referencedColumnName = "Id_Resident", unique = false)
+    @JoinColumn(name = "Id_Resident", referencedColumnName = "Id_Resident", unique = false, nullable = true)
     private Resident resident;
 
-    public Resident_Slot(String id_R_Slot, String type_Of_Vehicle, boolean status_Slots, Resident resident, Area area) {
+    public Resident_Slot(Long index, String id_R_Slot, String type_Of_Vehicle, boolean status_Slots, Resident resident, Area area) {
+        this.index = index;
         Id_R_Slot = id_R_Slot;
         Type_Of_Vehicle = type_Of_Vehicle;
         Status_Slots = status_Slots;

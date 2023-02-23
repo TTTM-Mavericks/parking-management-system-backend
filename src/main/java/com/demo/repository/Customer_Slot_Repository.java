@@ -1,5 +1,6 @@
 package com.demo.repository;
 
+import com.demo.entity.Booking;
 import com.demo.entity.Customer_Slot;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +25,12 @@ public interface Customer_Slot_Repository extends JpaRepository<Customer_Slot, L
             nativeQuery = true
     )
     Customer_Slot findCustomerSlot(String id_C_slot, String id_building);
+
+    @Query(
+            value = "select c.* from booking b join customer_slot c on b.id_index = c.id_index\n" +
+                    "where b.id_booking = ?1", nativeQuery = true
+    )
+    Customer_Slot findCustomerSlotByIdBooking(Long id_booking);
+
+
 }

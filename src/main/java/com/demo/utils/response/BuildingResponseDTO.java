@@ -9,7 +9,7 @@ public class BuildingResponseDTO {
 
     private Integer Number_Of_Area;
 
-    private Integer income;
+    private double income;
 
     private ManagerResponseDTO manager;
 }

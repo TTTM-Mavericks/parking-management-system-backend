@@ -27,8 +27,6 @@ public class AreaServiceImpl implements AreaService {
     @Override
     public AreaResponseDTO save(AreaDTO dto) {
         Area area = new Area();
-        List<Area> list = areaRepository.findAll();
-        area.setId_Area((long) (list.size()+1));
         area.setArea_name(dto.getArea_name());
         area.setType_of_area(dto.getType_of_area());
         area.setNumber_Of_Slot(dto.getNumber_Of_Slot());

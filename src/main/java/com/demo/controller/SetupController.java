@@ -47,7 +47,7 @@ public class SetupController {
     @GetMapping("/createUSER")
     public void createUser() throws Exception {
         Random random = new Random();
-        for (int i = 1; i <= 40; i++) {
+        for (int i = 1; i <= 86; i++) {
             String json = "{" +
                     "    \"id\" : \"user" + i + "\"," +
                     "    \"phone\": \"0" + generatePhone() + "\"," +
@@ -110,7 +110,7 @@ public class SetupController {
     @GetMapping("/createRESIDENT")
     public void createResident() throws JsonProcessingException {
 
-        for (int i = 26; i <= 40; i++) {
+        for (int i = 26; i <= 86; i++) {
             String json = "{" +
                     "    \"status_Account\":" + Math.round(Math.random()) + "," +
                     "    \"idUser\": \"user" + i + "\"" +
@@ -164,12 +164,12 @@ public class SetupController {
         System.out.println(dto1);
         buildingService.save(dto1);
 
-         json1 = "{\n" +
+        json1 = "{\n" +
                 "    \"role\": 3,\n" +
                 "    \"idUser\": \"user7\"\n" +
                 "}";
-         mapper = new ObjectMapper();
-         dto = mapper.readValue(json1, ManagerDTO.class);
+        mapper = new ObjectMapper();
+        dto = mapper.readValue(json1, ManagerDTO.class);
         manageService.save(dto);
         json = "{\n" +
                 "    \"income\": 800," +
@@ -251,18 +251,75 @@ public class SetupController {
     @GetMapping("/createSLOT")
     public void createSlot() throws JsonProcessingException {
 
-        for (int i = 1; i <= 5; i++) {
+//        for (int i = 1; i <= 5; i++) {
+//            final String[] proper_noun = {"Car", "Motor", "Bike"};
+//            Random random = new Random();
+//            int index = random.nextInt(proper_noun.length-1);
+//            String json = "{\n" +
+//                    "    \"idUser\": \"user"+(26+i-1)+"\"," +
+//                    "    \"phone\": \"0123456789\"," +
+//                    "    \"email\": \""+"user"+(26+i-1)+"@gmail.com\"," +
+//                    "    \"fullname\": \""+"user"+(26+i-1)+"\"," +
+//                    "    \"id_Building\": \"A\"," +
+//                    "    \"type_Of_Vehicle\": \""+proper_noun[index]+"\"," +
+//                    "    \"id_R_Slot\": \"R"+i+"\"" +
+//                    "}";
+//            ObjectMapper mapper = new ObjectMapper();
+//            Resident_Slot_DTO dto = mapper.readValue(json, Resident_Slot_DTO.class);
+//            System.out.println(dto);
+//            resident_slot_service.save(dto);
+//        }
+//
+//        for (int i = 6; i <= 10; i++) {
+//            final String[] proper_noun = {"Car", "Motor", "Bike"};
+//            Random random = new Random();
+//            int index = random.nextInt(proper_noun.length-1);
+//            String json = "{\n" +
+//                    "    \"idUser\": \"user"+(26+i-1)+"\"," +
+//                    "    \"phone\": \"0123456789\"," +
+//                    "    \"email\": \""+"user"+(26+i-1)+"@gmail.com\"," +
+//                    "    \"fullname\": \""+"user"+(26+i-1)+"\"," +
+//                    "    \"id_Building\": \"B\"," +
+//                    "    \"type_Of_Vehicle\": \""+proper_noun[index]+"\"," +
+//                    "    \"id_R_Slot\": \"R"+i+"\"" +
+//                    "}";
+//            ObjectMapper mapper = new ObjectMapper();
+//            Resident_Slot_DTO dto = mapper.readValue(json, Resident_Slot_DTO.class);
+//            System.out.println(dto);
+//            resident_slot_service.save(dto);
+//        }
+//        for (int i = 11; i <= 15; i++) {
+//            final String[] proper_noun = {"Car", "Motor", "Bike"};
+//            Random random = new Random();
+//            int index = random.nextInt(proper_noun.length-1);
+//            String json = "{\n" +
+//                    "    \"idUser\": \"user"+(26+i-1)+"\"," +
+//                    "    \"phone\": \"0123456789\"," +
+//                    "    \"email\": \""+"user"+(26+i-1)+"@gmail.com\"," +
+//                    "    \"fullname\": \""+"user"+(26+i-1)+"\"," +
+//                    "    \"id_Building\": \"C\"," +
+//                    "    \"type_Of_Vehicle\": \""+proper_noun[index]+"\"," +
+//                    "    \"id_R_Slot\": \"R"+i+"\"" +
+//                    "}";
+//            ObjectMapper mapper = new ObjectMapper();
+//            Resident_Slot_DTO dto = mapper.readValue(json, Resident_Slot_DTO.class);
+//            System.out.println(dto);
+//            resident_slot_service.save(dto);
+//        }
+
+        for (int i = 1; i <= 20; i++) {
             final String[] proper_noun = {"Car", "Motor", "Bike"};
             Random random = new Random();
             int index = random.nextInt(proper_noun.length-1);
             String json = "{\n" +
-                    "    \"idUser\": \"user"+(26+i-1)+"\"," +
+                    "    \"idUser\": \"user"+(i + 25)+"\"," +
                     "    \"phone\": \"0123456789\"," +
-                    "    \"email\": \""+"user"+(26+i-1)+"@gmail.com\"," +
-                    "    \"fullname\": \""+"user"+(26+i-1)+"\"," +
+                    "    \"email\": \""+"user"+(i + 25)+"@gmail.com\"," +
+                    "    \"fullname\": \""+"user"+(i + 25)+"\"," +
                     "    \"id_Building\": \"A\"," +
                     "    \"type_Of_Vehicle\": \""+proper_noun[index]+"\"," +
-                    "    \"id_R_Slot\": \"R"+i+"\"" +
+                    "    \"id_R_Slot\": \"R"+i+"\"," +
+                    "    \"status_Slots\":" + Math.round(Math.random())  +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
             Resident_Slot_DTO dto = mapper.readValue(json, Resident_Slot_DTO.class);
@@ -270,42 +327,45 @@ public class SetupController {
             resident_slot_service.save(dto);
         }
 
-        for (int i = 6; i <= 10; i++) {
+        for (int i = 1; i <= 20; i++) {
             final String[] proper_noun = {"Car", "Motor", "Bike"};
             Random random = new Random();
             int index = random.nextInt(proper_noun.length-1);
             String json = "{\n" +
-                    "    \"idUser\": \"user"+(26+i-1)+"\"," +
+                    "    \"idUser\": \"user"+(i + 45)+"\"," +
                     "    \"phone\": \"0123456789\"," +
-                    "    \"email\": \""+"user"+(26+i-1)+"@gmail.com\"," +
-                    "    \"fullname\": \""+"user"+(26+i-1)+"\"," +
+                    "    \"email\": \""+"user"+(i + 45)+"@gmail.com\"," +
+                    "    \"fullname\": \""+"user"+(i + 45)+"\"," +
                     "    \"id_Building\": \"B\"," +
                     "    \"type_Of_Vehicle\": \""+proper_noun[index]+"\"," +
-                    "    \"id_R_Slot\": \"R"+i+"\"" +
+                    "    \"id_R_Slot\": \"R"+i+"\"," +
+                    "    \"status_Slots\":" + Math.round(Math.random()) +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
             Resident_Slot_DTO dto = mapper.readValue(json, Resident_Slot_DTO.class);
             System.out.println(dto);
             resident_slot_service.save(dto);
         }
-        for (int i = 11; i <= 15; i++) {
+        for (int i = 1; i <= 20; i++) {
             final String[] proper_noun = {"Car", "Motor", "Bike"};
             Random random = new Random();
             int index = random.nextInt(proper_noun.length-1);
             String json = "{\n" +
-                    "    \"idUser\": \"user"+(26+i-1)+"\"," +
+                    "    \"idUser\": \"user"+(i + 65)+"\"," +
                     "    \"phone\": \"0123456789\"," +
-                    "    \"email\": \""+"user"+(26+i-1)+"@gmail.com\"," +
-                    "    \"fullname\": \""+"user"+(26+i-1)+"\"," +
+                    "    \"email\": \""+"user"+(i + 65)+"@gmail.com\"," +
+                    "    \"fullname\": \""+"user"+(i + 65)+"\"," +
                     "    \"id_Building\": \"C\"," +
                     "    \"type_Of_Vehicle\": \""+proper_noun[index]+"\"," +
-                    "    \"id_R_Slot\": \"R"+i+"\"" +
+                    "    \"id_R_Slot\": \"R"+i+"\"," +
+                    "    \"status_Slots\":" + Math.round(Math.random()) +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
             Resident_Slot_DTO dto = mapper.readValue(json, Resident_Slot_DTO.class);
             System.out.println(dto);
             resident_slot_service.save(dto);
         }
+
 
         for (int i = 1; i <= 20; i++) {
             final String[] proper_noun = {"Car", "Motor", "Bike"};
@@ -353,17 +413,4 @@ public class SetupController {
             customer_slot_service.save(dto);
         }
     }
-
-    @GetMapping("/createALL")
-    public void createAll() throws Exception {
-        createUser();
-        createManager();
-        createCustomer();
-        createResident();
-        createBuilding();
-        createArea();
-        createSlot();
-    }
-
 }
-
