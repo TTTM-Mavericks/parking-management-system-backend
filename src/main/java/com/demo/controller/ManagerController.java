@@ -2,7 +2,6 @@ package com.demo.controller;
 
 import com.demo.service.ManageService;
 import com.demo.utils.request.ManagerDTO;
-import com.demo.utils.request.UserDTO;
 import com.demo.utils.response.ManagerResponseDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

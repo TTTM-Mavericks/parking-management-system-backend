@@ -1,6 +1,5 @@
 package com.demo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,20 +19,12 @@ public class Resident {
     @JoinColumn(name = "Id_Resident", referencedColumnName = "Id_User", insertable = false, updatable = false)
     private User user;
 
-    public Resident(String idUser, User user, boolean status_Account) {
-        IdUser = idUser;
-        this.user = user;
-        Status_Account = status_Account;
-    }
-
     @Column(name = "Status_Account")
     private boolean Status_Account;
 
     @OneToOne(mappedBy = "resident")
-    @JsonIgnore
     private Payment_R payment_r;
 
     @OneToOne(mappedBy = "resident")
-    @JsonIgnore
     private Resident_Slot residentSlot;
 }

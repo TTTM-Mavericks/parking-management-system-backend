@@ -6,35 +6,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Resident_Slot")
+@Table(name = "Resident_Slot", uniqueConstraints = @UniqueConstraint(columnNames = "Id_R_Slot"))
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class Resident_Slot {
     @Id
-    @Column(name = "Id_Index")
-    private Long index;
-
     @Column(name = "Id_R_Slot")
     private String Id_R_Slot;
 
     @Column(name = "Type_Of_Vehicle")
-    private String Type_Of_Vehicle;
+    private Integer Type_Of_Vehicle;
 
     @Column(name = "Status_Slots")
     private boolean Status_Slots;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "Id_Resident", referencedColumnName = "Id_Resident", unique = false, nullable = true)
+    @JoinColumn(name = "Id_Resident", referencedColumnName = "Id_Resident")
     private Resident resident;
-
-    public Resident_Slot(Long index, String id_R_Slot, String type_Of_Vehicle, boolean status_Slots, Resident resident, Area area) {
-        this.index = index;
-        Id_R_Slot = id_R_Slot;
-        Type_Of_Vehicle = type_Of_Vehicle;
-        Status_Slots = status_Slots;
-        this.resident = resident;
-        this.area = area;
-    }
 
     @ManyToOne
     @JoinColumn(name = "Id_Area")

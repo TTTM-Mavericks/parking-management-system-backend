@@ -16,7 +16,7 @@ public class Customer_Invoice {
     private String Id_C_Invoice;
 
     @Column(name = "Total_Of_Money")
-    private double Total_Of_Money;
+    private Integer Total_Of_Money;
 
     @Column(name = "Status")
     private boolean Status;

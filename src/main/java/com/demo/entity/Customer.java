@@ -24,16 +24,6 @@ public class Customer {
     @Column(name = "Status_Account")
     private boolean Status_Account;
 
-    @Column(name = "Cancel_Of_Payments")
-    private int cancel_of_payments; // If user cancel order the cancel_of_payments + 1, if the cancel_of_payments >= 3 ban Account customer
-
-    public Customer(String idUser, boolean status_Account, User user) {
-        IdUser = idUser;
-        this.user = user;
-        Status_Account = status_Account;
-        this.cancel_of_payments = 0;
-    }
-
-    @OneToMany(mappedBy = "customer", cascade =  CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "customer")
     private List<Booking> list_Booking;
 }

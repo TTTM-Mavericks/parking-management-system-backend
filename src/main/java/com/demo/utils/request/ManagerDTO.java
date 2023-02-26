@@ -6,5 +6,5 @@ import lombok.Data;
 public class ManagerDTO {
     private String IdUser;
 
-    private int Role;
+    private boolean Role;
 }
