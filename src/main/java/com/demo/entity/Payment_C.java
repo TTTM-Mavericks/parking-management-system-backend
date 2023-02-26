@@ -1,5 +1,6 @@
 package com.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,9 +20,16 @@ public class Payment_C {
     private String Type; // Type of Payment
 
     @OneToOne(mappedBy = "payment_c")
+    @JsonIgnore
     private Customer_Invoice customer_invoice;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "Id_Booking")
     private Booking booking;
+
+    public Payment_C(String id_Payment, String type, Booking booking) {
+        Id_Payment = id_Payment;
+        Type = type;
+        this.booking = booking;
+    }
 }

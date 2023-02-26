@@ -1,6 +1,7 @@
 package com.demo.service.Impl;
 
 import com.demo.entity.Manager;
+import com.demo.repository.BuildingRepository;
 import com.demo.repository.ManagerRepository;
 import com.demo.repository.UserRepository;
 import com.demo.service.ManageService;
@@ -23,12 +24,12 @@ public class ManageServiceImpl implements ManageService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    BuildingRepository buildingRepository;
+
     @Override
     public ManagerResponseDTO save(ManagerDTO dto) {
-        Manager manager = new Manager();
-        manager.setRole(dto.isRole());
-        manager.setIdUser(dto.getIdUser());
-        manager.setUser(userRepository.findById(dto.getIdUser()).get());
+        Manager manager = new Manager(dto.getIdUser(), userRepository.findById(dto.getIdUser()).get(), dto.getRole());
         return mapperedToManager(managerRepository.save(manager));
     }
 
@@ -45,7 +46,7 @@ public class ManageServiceImpl implements ManageService {
     @Override
     public ManagerResponseDTO update(ManagerDTO dto, String IdUser) {
         Manager manager = managerRepository.findById(IdUser).get();
-        manager.setRole(dto.isRole());
+        manager.setRole(dto.getRole());
         manager.setIdUser(dto.getIdUser());
         manager.setUser(userRepository.findById(dto.getIdUser()).get());
         return mapperedToManager(managerRepository.save(manager));
@@ -57,12 +58,12 @@ public class ManageServiceImpl implements ManageService {
         return "Delete Successfully";
     }
 
-    private ManagerResponseDTO mapperedToManager(Manager manager)
+    public static ManagerResponseDTO mapperedToManager(Manager manager)
     {
         ManagerResponseDTO dto =  new ManagerResponseDTO();
         dto.setIdUser(manager.getIdUser());
         dto.setUser(mapperedToUserResponse(manager.getUser()));
-        dto.setRole(manager.isRole());
+        dto.setRole(manager.getRole());
         return dto;
     }
 }

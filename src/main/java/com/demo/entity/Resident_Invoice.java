@@ -17,10 +17,14 @@ public class Resident_Invoice {
     @Column(name = "Id_R_Invoice")
     private String Id_R_Invoice;
 
+    @Column(name = "Status")
+    private boolean Status;
+
     @Column(name = "Total_Of_Money")
-    private Integer Total_Of_Money;
+    private double Total_Of_Money;
 
     @Column(name = "Time")
+    @Temporal(TemporalType.DATE)
     private Date Time;
 
     @OneToOne(cascade = CascadeType.ALL)

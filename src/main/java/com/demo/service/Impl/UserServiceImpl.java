@@ -1,21 +1,36 @@
 package com.demo.service.Impl;
 
+import com.demo.entity.Customer;
 import com.demo.entity.User;
+import com.demo.repository.CustomerRepository;
 import com.demo.repository.UserRepository;
+import com.demo.service.CustomerService;
+import com.demo.service.ResidentService;
 import com.demo.service.UserService;
+import com.demo.utils.request.CustomerDTO;
+import com.demo.utils.request.ResidentDTO;
 import com.demo.utils.request.UserDTO;
 import com.demo.utils.response.UserResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 @Controller
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    ResidentService residentService;
+
+    @Autowired
+    CustomerService customerService;
 
     @Override
     public Optional<UserResponseDTO> findById(String id) {
@@ -28,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDTO save(UserDTO user) {
+    public UserResponseDTO save(UserDTO user){
         User dto = new User();
         dto.setId(user.getId());
         dto.setEmail(user.getEmail());
@@ -37,11 +52,12 @@ public class UserServiceImpl implements UserService {
         dto.setPassword(user.getPassword());
         dto.setFullname(user.getFullname());
         dto.setPhone(user.getPhone());
-        return mapperedToUserResponse(userRepository.save(dto));
+        User user1 = userRepository.save(dto);
+        return mapperedToUserResponse(user1);
     }
 
     @Override
-    public UserResponseDTO update(UserDTO user, String id) {
+    public UserResponseDTO update(UserDTO user, String id){
         User dto = userRepository.findById(id).get();
         dto.setId(user.getId());
         dto.setEmail(user.getEmail());
@@ -59,6 +75,26 @@ public class UserServiceImpl implements UserService {
         return "Delete Successfully";
     }
 
+    @Override
+    public UserResponseDTO createCustomer(UserDTO user) {
+        User dto = new User();
+        dto.setId(user.getId());
+        dto.setEmail(user.getEmail());
+        dto.setGender(user.isGender());
+        dto.setDateofbirth(user.getDateofbirth());
+        dto.setPassword(user.getPassword());
+        dto.setFullname(user.getFullname());
+        dto.setPhone(user.getPhone());
+        userRepository.save(dto);
+        customerRepository.save(new Customer(dto.getId(), true, dto));
+        return mapperedToUserResponse(dto);
+    }
+
+    @Override
+    public List<User> ListAllCustomer() {
+        return userRepository.findALlCustomer();
+    }
+
     public static UserResponseDTO mapperedToUserResponse(User user)
     {
         UserResponseDTO dto = new UserResponseDTO();
@@ -69,6 +105,20 @@ public class UserServiceImpl implements UserService {
         dto.setPassword(user.getPassword());
         dto.setFullname(user.getFullname());
         dto.setPhone(user.getPhone());
+        return dto;
+    }
+
+    @Override
+    public User updateCustomer(UserDTO user){
+        User dto = userRepository.findCustomerById(user.getId());
+        dto.setId(user.getId());
+        dto.setEmail(user.getEmail());
+        dto.setGender(user.isGender());
+        dto.setDateofbirth(user.getDateofbirth());
+        dto.setPassword(user.getPassword());
+        dto.setFullname(user.getFullname());
+        dto.setPhone(user.getPhone());
+        userRepository.save(dto);
         return dto;
     }
 }
