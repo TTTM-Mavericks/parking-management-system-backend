@@ -94,10 +94,14 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public InvoiceCustomerResponse searchCustomerInvoiceId(String Id_C_Invoice) {
         Customer_Invoice customer_invoice = invoice_c_repository.findById(Id_C_Invoice).get();
-        return new InvoiceCustomerResponse(customer_invoice.getId_C_Invoice(), customer_invoice.getPayment_c().getId_Payment(),
-                payment_c_repository.findById(customer_invoice.getPayment_c().getId_Payment()).get().getBooking().getId_Booking(),
+
+        Payment_C payment_c = payment_c_repository.findById(customer_invoice.getPayment_c().getId_Payment()).get();
+
+        Booking booking = bookingRepository.findBookingByIdPayment(payment_c.getId_Payment());
+
+        return new InvoiceCustomerResponse(customer_invoice.getId_C_Invoice(), payment_c.getId_Payment(), booking.getId_Booking(),
                 customer_invoice.getTotal_Of_Money(), customer_invoice.isStatus(),
-                payment_c_repository.findById(customer_invoice.getPayment_c().getId_Payment()).get().getType());
+                payment_c.getType(), booking.getCustomer().getIdUser(), booking.getStartDate(), booking.getEndDate());
     }
 
     @Override
@@ -106,10 +110,11 @@ public class SecurityServiceImpl implements SecurityService {
         List<Customer_Invoice>customer_invoices = invoice_c_repository.findAll();
         for (Customer_Invoice customer_invoice: customer_invoices)
         {
-            list.add(new InvoiceCustomerResponse(customer_invoice.getId_C_Invoice(), customer_invoice.getPayment_c().getId_Payment(),
-                    payment_c_repository.findById(customer_invoice.getPayment_c().getId_Payment()).get().getBooking().getId_Booking(),
+            Payment_C payment_c = payment_c_repository.findById(customer_invoice.getPayment_c().getId_Payment()).get();
+            Booking booking = bookingRepository.findBookingByIdPayment(payment_c.getId_Payment());
+            list.add(new InvoiceCustomerResponse(customer_invoice.getId_C_Invoice(), payment_c.getId_Payment(), booking.getId_Booking(),
                     customer_invoice.getTotal_Of_Money(), customer_invoice.isStatus(),
-                    payment_c_repository.findById(customer_invoice.getPayment_c().getId_Payment()).get().getType()));
+                    payment_c.getType(), booking.getCustomer().getIdUser(), booking.getStartDate(), booking.getEndDate()));
         }
         return list;
     }

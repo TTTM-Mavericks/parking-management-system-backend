@@ -51,7 +51,7 @@ public class Booking {
         this.customer = customer;
     }
 
-    @OneToOne(mappedBy = "booking")
+    @OneToOne(mappedBy = "booking", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private Payment_C payment_c;
 
