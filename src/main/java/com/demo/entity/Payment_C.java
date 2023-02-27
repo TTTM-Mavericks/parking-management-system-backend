@@ -23,7 +23,7 @@ public class Payment_C {
     @JsonIgnore
     private Customer_Invoice customer_invoice;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "Id_Booking")
     private Booking booking;
 

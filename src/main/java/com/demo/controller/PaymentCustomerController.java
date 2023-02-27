@@ -1,7 +1,6 @@
 package com.demo.controller;
 
 import com.demo.service.PaymentCustomerService;
-import com.demo.utils.request.CancelPaymentDTO;
 import com.demo.utils.request.PaymentCustomerDTO;
 import com.demo.utils.response.PaymentCustomerReponseDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -24,23 +23,9 @@ public class PaymentCustomerController {
         return new ResponseEntity<>(paymentCustomerService.save(dto), HttpStatus.OK);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<PaymentCustomerReponseDTO> update(@RequestBody String json) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        PaymentCustomerReponseDTO dto = mapper.readValue(json, PaymentCustomerReponseDTO.class);
-        return new ResponseEntity<>(paymentCustomerService.UpdateTypeOfPayment(dto), HttpStatus.OK);
-    }
-
     @GetMapping("/findPayment")
     public ResponseEntity<PaymentCustomerReponseDTO> findPayment()
     {
         return new ResponseEntity<>(paymentCustomerService.findPayment(), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/cancelPayment")
-    public ResponseEntity<String> delete(@RequestBody String json) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        CancelPaymentDTO dto = mapper.readValue(json, CancelPaymentDTO.class);
-        return new ResponseEntity<>(paymentCustomerService.CancelPayment(dto), HttpStatus.OK);
     }
 }

@@ -3,7 +3,6 @@ package com.demo.service.Impl;
 import com.demo.entity.*;
 import com.demo.repository.*;
 import com.demo.service.PaymentCustomerService;
-import com.demo.utils.request.CancelPaymentDTO;
 import com.demo.utils.request.PaymentCustomerDTO;
 import com.demo.utils.response.PaymentCustomerReponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +29,6 @@ public class PaymentCustomerServiceImpl implements PaymentCustomerService {
     BuildingRepository buildingRepository;
 
     public PaymentCustomerReponseDTO paymentReponseDTO;
-
-    @Autowired
-    CustomerRepository customerRepository;
 
     @Override
     public PaymentCustomerReponseDTO save(PaymentCustomerDTO dto) {
@@ -73,44 +69,6 @@ public class PaymentCustomerServiceImpl implements PaymentCustomerService {
                 Type_Of_Payment, total_of_money,"IC" + invoiceList1.size(),  Status_Invoice);
 
         return paymentReponseDTO;
-    }
-
-    @Override
-    public PaymentCustomerReponseDTO UpdateTypeOfPayment(PaymentCustomerReponseDTO dto) {
-        String Type_Of_Payment = dto.getType_Of_Payment();
-        Long Id_Booking = dto.getId_Booking();
-
-        Booking booking = bookingRepository.findById(Id_Booking).get();
-
-        Payment_C payment_c = payment_c_repository.findById(dto.getId_Payment()).get();
-        payment_c.setType(dto.getType_Of_Payment());
-        payment_c_repository.save(payment_c);
-
-        Customer_Invoice customer_invoice = invoice_c_repository.findById(dto.getId_C_Invoice()).get();
-        customer_invoice.setStatus(true);
-        invoice_c_repository.save(customer_invoice);
-
-         paymentReponseDTO = new PaymentCustomerReponseDTO(Id_Booking, booking.getCustomer_slot().getId_C_Slot(), booking.getStartDate(),
-                booking.getEndDate(), booking.getStartTime(), booking.getEndTime(), payment_c.getId_Payment(),
-                Type_Of_Payment, customer_invoice.getTotal_Of_Money(),
-                customer_invoice.getId_C_Invoice(),  customer_invoice.isStatus());
-
-        return paymentReponseDTO;
-    }
-
-    @Override
-    public String CancelPayment(CancelPaymentDTO dto) {
-        Booking booking = bookingRepository.findById(dto.getId_Booking()).get();
-        Customer customer = customerRepository.findById(booking.getCustomer().getIdUser()).get();
-        customer.setCancel_of_payments(customer.getCancel_of_payments() + 1);
-        customerRepository.save(customer);
-
-        invoice_c_repository.deleteById(dto.getId_C_Invoice());
-
-        payment_c_repository.deleteById(dto.getId_Payment());
-
-        bookingRepository.deleteById(dto.getId_Booking());
-        return "Cancel Payment Successfully";
     }
 
     @Override

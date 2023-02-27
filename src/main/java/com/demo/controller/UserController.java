@@ -21,16 +21,10 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/save")
-    public ResponseEntity<String> createUser(@RequestBody String json) throws JsonProcessingException, Exception {
+    public ResponseEntity<UserResponseDTO> save(@RequestBody String json) throws JsonProcessingException, Exception {
         ObjectMapper mapper = new ObjectMapper();
         UserDTO dto = mapper.readValue(json, UserDTO.class);
-        return new ResponseEntity<>(userService.createUser(dto), HttpStatus.OK);
-    }
-
-    @GetMapping("/getMessage")
-    public ResponseEntity<String> getMessage()
-    {
-        return new ResponseEntity<>(userService.getMessage(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.save(dto), HttpStatus.OK);
     }
 
     @PostMapping("/save1")

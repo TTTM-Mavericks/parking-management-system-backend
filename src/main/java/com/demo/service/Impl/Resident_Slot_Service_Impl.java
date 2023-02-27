@@ -90,6 +90,7 @@ public class Resident_Slot_Service_Impl implements Resident_Slot_Service {
         }
         return list;
     }
+
     @Override
     public Resident_Slot_API findByIdResidentSlot(Long id) {
         Resident_Slot resident_slot = resident_slot_repository.findById(id).get();

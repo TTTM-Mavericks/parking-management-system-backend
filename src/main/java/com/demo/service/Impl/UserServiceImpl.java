@@ -32,8 +32,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     CustomerService customerService;
 
-    public String message;
-
     @Override
     public Optional<UserResponseDTO> findById(String id) {
         return Optional.of(mapperedToUserResponse(userRepository.findById(id).get()));
@@ -55,36 +53,7 @@ public class UserServiceImpl implements UserService {
         dto.setFullname(user.getFullname());
         dto.setPhone(user.getPhone());
         User user1 = userRepository.save(dto);
-        customerRepository.save(new Customer(dto.getId(), true, userRepository.findById(user.getId()).get()));
         return mapperedToUserResponse(user1);
-    }
-
-    @Override
-    public String createUser(UserDTO user) throws Exception {
-        if(userRepository.findById(user.getId()).isPresent())
-        {
-            message = "Your Username has been registered already!!!!";
-        }
-        else
-        {
-            User dto = new User();
-            dto.setId(user.getId());
-            dto.setEmail(user.getEmail());
-            dto.setGender(user.isGender());
-            dto.setDateofbirth(user.getDateofbirth());
-            dto.setPassword(user.getPassword());
-            dto.setFullname(user.getFullname());
-            dto.setPhone(user.getPhone());
-            User user1 = userRepository.save(dto);
-            customerRepository.save(new Customer(dto.getId(), true, userRepository.findById(user.getId()).get()));
-            message = "Register successfully";
-        }
-        return "Register Loading....";
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
     }
 
     @Override
