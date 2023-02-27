@@ -21,7 +21,7 @@ public class Customer_Invoice {
     @Column(name = "Status")
     private boolean Status;
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "Id_Payment")
     private Payment_C payment_c;
 }

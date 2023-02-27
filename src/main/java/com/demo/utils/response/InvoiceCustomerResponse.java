@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,4 +21,10 @@ public class InvoiceCustomerResponse {
     private boolean Status;
 
     private String TypeOfPayment; // Type of Payment
+
+    private String id_Customer;
+
+    private Date startDate;
+
+    private Date endDate;
 }

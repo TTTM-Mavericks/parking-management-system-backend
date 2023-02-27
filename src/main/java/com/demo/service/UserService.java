@@ -11,6 +11,10 @@ import java.util.Optional;
 public interface UserService {
     UserResponseDTO save(UserDTO dto)  throws Exception;
 
+    String createUser(UserDTO dto)  throws Exception;
+
+    String getMessage();
+
     Optional<UserResponseDTO> findById(String id);
 
     List<UserResponseDTO> findAll();
