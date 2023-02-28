@@ -52,6 +52,24 @@ public class SecurityController {
     {
         return new ResponseEntity<>(securityService.searchCustomerInvoiceId(Id_C_Invoice) , HttpStatus.OK);
     }
+
+    @GetMapping("/searchCustomerInvoiceByCustomer/{Id_Customer}")
+    public ResponseEntity<List<InvoiceCustomerResponse>>searchCustomerInvoiceByCustomer(@PathVariable("Id_Customer") String Id_Customer)
+    {
+        return new ResponseEntity<>(securityService.searchCustomerInvoiceByCustomer(Id_Customer) , HttpStatus.OK);
+    }
+
+    @GetMapping("/searchCustomerInvoiceByTypeOfPayment/{typeOfPayment}")
+    public ResponseEntity<List<InvoiceCustomerResponse>>searchCustomerInvoiceByTypeOfPayment(@PathVariable("typeOfPayment") String typeOfPayment)
+    {
+        return new ResponseEntity<>(securityService.searchCustomerInvoiceByTypeOfPayment(typeOfPayment) , HttpStatus.OK);
+    }
+
+    @GetMapping("/searchResidentInvoiceByTypeOfPayment/{typeOfPayment}")
+    public ResponseEntity<List<InvoiceResidentResponse>>searchResidentInvoiceByTypeOfPayment(@PathVariable("typeOfPayment") String typeOfPayment)
+    {
+        return new ResponseEntity<>(securityService.searchResidentInvoiceByTypeOfPayment(typeOfPayment) , HttpStatus.OK);
+    }
     @GetMapping("/findAllCustomerInvoice")
     public ResponseEntity<List<InvoiceCustomerResponse>>findAllCustomerInvoice(){
         return new ResponseEntity<>(securityService.findAllCustomerInvoice() , HttpStatus.OK);
@@ -62,6 +80,13 @@ public class SecurityController {
     {
         return new ResponseEntity<>(securityService.searchResidentInvoiceId(Id_R_Invoice) , HttpStatus.OK);
     }
+
+    @GetMapping("/searchResidentInvoiceIdByResident/{id_Resident}")
+    public ResponseEntity<InvoiceResidentResponse>searchResidentInvoiceIdByResident(@PathVariable("id_Resident") String id_Resident)
+    {
+        return new ResponseEntity<>(securityService.searchResidentInvoiceIdByResident(id_Resident) , HttpStatus.OK);
+    }
+
     @GetMapping("/findAllResidentInvoice")
     public ResponseEntity<List<InvoiceResidentResponse>>findAllResidentInvoice(){
         return new ResponseEntity<>(securityService.findAllResidentInvoice(), HttpStatus.OK);
@@ -87,5 +112,18 @@ public class SecurityController {
         return new ResponseEntity<>(securityService.updateCustomer_Resident(idUser, dto), HttpStatus.OK);
     }
 
+    @GetMapping("/ResponseCustomerInfoSlot")
+    public ResponseEntity<ResponseCustomerInfoSlot> ResponseCustomerInfoSlot(@RequestParam("id_Building") String id_Building,
+                                                                             @RequestParam("id_C_Slot") String id_C_Slot)
+    {
+        return new ResponseEntity<>(securityService.getCustomerInfoOfSlot(id_Building, id_C_Slot), HttpStatus.OK);
+    }
+
+    @GetMapping("/ResponseResidentInfoSlot")
+    public ResponseEntity<ResponseResidentInfoSlot> ResponseResidentInfoSlot(@RequestParam("id_Building") String id_Building,
+                                                                             @RequestParam("id_R_Slot") String id_R_Slot)
+    {
+        return new ResponseEntity<>(securityService.getResidentInfoOfSlot(id_Building, id_R_Slot), HttpStatus.OK);
+    }
 
 }

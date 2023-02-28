@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface Invoice_C_Repository extends JpaRepository<Customer_Invoice, String> {
     @Query
-    (value = "select ci.* from payment_c pc join customer_invoice ci on pc.id_payment = ci.id_payment" +
+    (value = "select ci.* from payment_c pc join customer_invoice ci on pc.id_payment = ci.id_payment " +
             "where ci.id_payment = ?1", nativeQuery = true)
     Customer_Invoice findCustomer_Invoice_By_Id_Payment(String id_Payment);
 

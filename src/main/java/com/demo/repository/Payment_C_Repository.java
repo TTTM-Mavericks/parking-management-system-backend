@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface Payment_C_Repository extends JpaRepository<Payment_C, String>{
     @Query
@@ -19,4 +21,12 @@ public interface Payment_C_Repository extends JpaRepository<Payment_C, String>{
     @Query
     (value = "update payment_c set type_of_payment = ?1 where id_booking = ?2", nativeQuery = true)
     int updateTypeOfPayment(String type_of_payment, Long id_Booing);
+
+
+    @Query
+    (
+            value = "select pc.* from payment_c pc  " +
+                    "where pc.type_of_payment = ?1", nativeQuery = true
+    )
+    List<Payment_C> findPayment_C_By_TypeOfPayment(String typeOfPayment);
 }
