@@ -7,6 +7,7 @@ import com.demo.utils.request.RevenueDTO;
 import com.demo.utils.request.SecurityDTO;
 import com.demo.utils.request.UpdateDTO;
 import com.demo.utils.response.BuildingManagerResponse;
+import com.demo.utils.response.UserResponseDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/headManager")
@@ -24,6 +26,11 @@ public class HeadManageController {
     @GetMapping("/findAllBuildingManager")
     public ResponseEntity<List<SecurityDTO>> findAllSecurity(){
         return new ResponseEntity<>(headManagerService.findAllBuildingManager(), HttpStatus.OK);
+    }
+
+    @GetMapping("/listAllManager")
+    public ResponseEntity<List<SecurityDTO>> listAllManager(){
+        return new ResponseEntity<>(headManagerService.listAllManager(), HttpStatus.OK);
     }
 
     @PutMapping("/BanOrUnbanBuildingManager")
@@ -49,5 +56,11 @@ public class HeadManageController {
     @GetMapping("/RevenueFromAllBuilding")
     public ResponseEntity<BuildingManagerDTO>RevenueFromEachBuilding(){
         return new ResponseEntity<>(headManagerService.RevenueFromAllBuilding(), HttpStatus.OK);
+    }
+
+    @GetMapping("/findByIdManager/{idUser}")
+    public ResponseEntity<SecurityDTO> findByIdManager(@PathVariable("idUser") String idUser)
+    {
+        return new ResponseEntity<>(headManagerService.findByIdManager(idUser), HttpStatus.OK);
     }
 }

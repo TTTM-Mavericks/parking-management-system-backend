@@ -20,4 +20,8 @@ public interface HeadManagerService {
     BuildingManagerDTO RevenueFromAllBuilding();
 
     SecurityDTO findByIdBuildingManager(String IdBuildingManager);
+
+    List<SecurityDTO> listAllManager();
+
+    SecurityDTO findByIdManager(String idUser);
 }

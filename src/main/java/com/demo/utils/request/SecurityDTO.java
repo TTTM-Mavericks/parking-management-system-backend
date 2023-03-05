@@ -25,7 +25,6 @@ public class SecurityDTO {
     private String phone;
 
     private boolean status_Account;
-
     private int role;
 
 }

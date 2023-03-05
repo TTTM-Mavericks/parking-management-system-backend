@@ -106,4 +106,30 @@ public class HeadManagerImpl implements HeadManagerService {
         return new SecurityDTO(user.getId(), user.getFullname(), user.getPassword(), user.isGender(), user.getDateofbirth(),
                 user.getEmail(), user.getPhone(), manager.isStatus_Account(), manager.getRole());
     }
+
+    @Override
+    public List<SecurityDTO> listAllManager() {
+        List<SecurityDTO>list = new ArrayList<>();
+        List<Manager> managers = managerRepository.findAll();
+        for(Manager manager : managers)
+        {
+            User user = userRepository.findById(manager.getUser().getId()).get();
+            list.add(new SecurityDTO(user.getId(), user.getFullname(), user.getPassword(), user.isGender(), user.getDateofbirth(),
+                    user.getEmail(), user.getPhone(), manager.isStatus_Account(), manager.getRole()));
+        }
+        return list;
+    }
+
+    @Override
+    public SecurityDTO findByIdManager(String idUser) {
+
+        Manager manager = managerRepository.findById(idUser).get();
+        User user = userRepository.findById(idUser).get();
+        if (manager != null && user != null)
+        {
+            return new SecurityDTO(user.getId(), user.getFullname(), user.getPassword(), user.isGender(), user.getDateofbirth(),
+                    user.getEmail(), user.getPhone(), manager.isStatus_Account(), manager.getRole());
+        }
+        return null;
+    }
 }
