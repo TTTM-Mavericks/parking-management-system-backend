@@ -1,11 +1,7 @@
 package com.demo.service.Impl;
 
-import com.demo.entity.Building;
-import com.demo.entity.Manager;
-import com.demo.entity.User;
-import com.demo.repository.BuildingRepository;
-import com.demo.repository.ManagerRepository;
-import com.demo.repository.UserRepository;
+import com.demo.entity.*;
+import com.demo.repository.*;
 import com.demo.service.BuildingManagerService;
 import com.demo.utils.request.RevenueDTO;
 import com.demo.utils.request.SecurityDTO;
@@ -15,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class BuildingManagerServiceImpl implements BuildingManagerService{
@@ -27,6 +25,24 @@ public class BuildingManagerServiceImpl implements BuildingManagerService{
 
     @Autowired
     BuildingRepository buildingRepository;
+
+    @Autowired
+    Invoice_C_Repository invoice_c_repository;
+
+    @Autowired
+    Invoice_R_Repository invoice_r_repository;
+
+    @Autowired
+    BookingRepository bookingRepository;
+
+    @Autowired
+    Payment_C_Repository payment_c_repository;
+
+    @Autowired
+    Payment_R_Repository payment_r_repository;
+
+    @Autowired
+    Resident_Slot_Repository resident_slot_repository;
     @Override
     public List<SecurityDTO> findAllSecurity() {
         List<User>list_security = userRepository.findSecurityByIdUser(3);
@@ -91,11 +107,81 @@ public class BuildingManagerServiceImpl implements BuildingManagerService{
     public List<RevenueDTO> RevenueFromEachBuilding() {
         List<Building>list = buildingRepository.findAll();
         List<RevenueDTO> revenueDTOList = new ArrayList<>();
+        int id_Area = 0;
         for (Building building : list)
         {
-            revenueDTOList.add(new RevenueDTO(building.getId_Building(), building.getIncome(),building.getManager().getIdUser()));
+            switch (building.getId_Building())
+            {
+                case "A":
+                    id_Area = 4;
+                    break;
+                case "B":
+                    id_Area = 5;
+                    break;
+                case "C":
+                    id_Area = 6;
+                    break;
+
+            }
+            revenueDTOList.add(new RevenueDTO(building.getId_Building(), building.getIncome(),building.getManager().getIdUser(),
+                    countCustomerPaymentFromEachBuilding(Long.parseLong(id_Area + "")),
+                    countResidentPaymentFromEachBuilding(building.getId_Building(), Long.parseLong((id_Area - 3) + ""))));
         }
         return revenueDTOList;
+    }
+
+    private int countCustomerPaymentFromEachBuilding(Long id_Area)
+    {
+        int count = 0;
+        List<Booking> bookings = bookingRepository.findIdBookingByIdArea(id_Area);
+        Set<String> set = new HashSet<>();
+        for(Booking booking : bookings)
+        {
+            if(!set.contains(booking.getCustomer().getIdUser()))
+            {
+                set.add(booking.getCustomer().getIdUser());
+                if(payment_c_repository.findPayment_C_By_Id_Booking(booking.getId_Booking()) != null)
+                {
+                    Payment_C payment_c = payment_c_repository.findPayment_C_By_Id_Booking(booking.getId_Booking());
+                    if(invoice_c_repository.findCustomer_Invoice_By_Id_Payment(payment_c.getId_Payment()) != null)
+                    {
+                        Customer_Invoice customer_invoice = invoice_c_repository.findCustomer_Invoice_By_Id_Payment(payment_c.getId_Payment());
+                        if(customer_invoice.isStatus())
+                        {
+                            count++;
+                        }
+                    }
+                }
+            }
+        }
+        return count;
+    }
+
+    private int countResidentPaymentFromEachBuilding(String id_Building, Long id_Area)
+    {
+        int count = 0;
+        List<Resident_Slot> residentSlots = resident_slot_repository.findAllSlotOfEachBuilding(id_Building);
+        Set<String> set = new HashSet<>();
+        for(Resident_Slot residentSlot : residentSlots)
+        {
+            if(!set.contains(residentSlot.getResident().getIdUser()) && residentSlot.isStatus_Slots())
+            {
+                set.add(residentSlot.getResident().getIdUser());
+                if(payment_r_repository.findPayment_R_By_Resident_Slot(residentSlot.getId_R_Slot(), id_Area) != null)
+                {
+                    Payment_R paymentR = payment_r_repository.findPayment_R_By_Resident_Slot(residentSlot.getId_R_Slot(), id_Area);
+                    if(invoice_r_repository.findResident_InvoiceByResidentPayment(paymentR.getId_Payment()) != null)
+                    {
+                        Resident_Invoice residentInvoice = invoice_r_repository.findResident_InvoiceByResidentPayment(paymentR.getId_Payment());
+                        if(residentInvoice.isStatus())
+                        {
+                            count++;
+                        }
+                    }
+                }
+            }
+        }
+        return count;
     }
 
     @Override

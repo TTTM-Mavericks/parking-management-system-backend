@@ -13,4 +13,8 @@ public class RevenueDTO {
     private double income;
 
     private String id_manager;
+
+    private int countCustomer;
+
+    private int countResident;
 }
