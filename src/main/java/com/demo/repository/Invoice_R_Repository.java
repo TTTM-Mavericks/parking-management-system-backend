@@ -12,4 +12,9 @@ public interface Invoice_R_Repository extends JpaRepository<Resident_Invoice, St
             (value = "select ri.* from resident_invoice ri join payment_r pr on pr.id_payment = ri.id_payment " +
                     "where pr.id_payment = ?1", nativeQuery = true)
     Resident_Invoice findResident_InvoiceByResidentPayment(String id_Payment);
+
+    @Query
+            (value = "select * from resident_invoice where Id_R_Invoice = ?1", nativeQuery = true)
+    Resident_Invoice findResident_InvoiceByInvoiceID(String id);
+
 }
