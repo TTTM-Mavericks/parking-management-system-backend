@@ -33,7 +33,7 @@ public class BookingCustomerController {
         return new ResponseEntity<>(bookingCustomerService.findBooking(), HttpStatus.OK);
     }
 
-    @GetMapping("/cancelBooking")
+    @PostMapping("/cancelBooking")
     public ResponseEntity<String> cancelBooking(@RequestBody String json) throws JsonProcessingException
     {
         ObjectMapper mapper = new ObjectMapper();
