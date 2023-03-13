@@ -52,4 +52,32 @@ public interface UserRepository extends JpaRepository<User, String> {
         nativeQuery = true
     )
     List<User> findAllResidentByQuery();
+
+    @Query
+    (
+        value = "select u.* from users u join customer c on u.id_user = c.id_customer\n" +
+                "where u.email like %?1%", nativeQuery = true
+    )
+    List<User> searchCustomerByEmail(String email);
+
+    @Query
+    (
+            value = "select u.* from users u join resident r on u.id_user = r.id_resident\n" +
+                    "where u.email like %?1%", nativeQuery = true
+    )
+    List<User> searchResidentByEmail(String email);
+
+    @Query
+    (
+        value = "select u.* from users u join customer c on u.id_user = c.id_customer\n" +
+                "where u.phone like %?1%", nativeQuery = true
+    )
+    List<User> searchCustomerByPhone(String phone);
+
+    @Query
+    (
+            value = "select u.* from users u join resident r on u.id_user = r.id_resident\n" +
+                    "where u.phone like %?1%", nativeQuery = true
+    )
+    List<User> searchResidentByPhone(String phone);
 }

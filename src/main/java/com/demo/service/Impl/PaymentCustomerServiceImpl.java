@@ -103,7 +103,7 @@ public class PaymentCustomerServiceImpl implements PaymentCustomerService {
         return paymentReponseDTO;
     }
 
-    private double calculateTotalOfMoney(Customer_Slot customerSlot, Booking bookingInfo)
+    public double calculateTotalOfMoney(Customer_Slot customerSlot, Booking bookingInfo)
     {
         //2022-06-20
         int DD_st = Integer.parseInt((bookingInfo.getStartDate() + "").substring(8, 10));

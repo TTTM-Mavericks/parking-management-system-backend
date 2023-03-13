@@ -10,16 +10,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface Invoice_C_Repository extends JpaRepository<Customer_Invoice, String> {
     @Query
-            (value = "select ci.* from payment_c pc join customer_invoice ci on pc.id_payment = ci.id_payment " +
-                    "where ci.id_payment = ?1", nativeQuery = true)
+    (value = "select ci.* from payment_c pc join customer_invoice ci on pc.id_payment = ci.id_payment " +
+            "where ci.id_payment = ?1", nativeQuery = true)
     Customer_Invoice findCustomer_Invoice_By_Id_Payment(String id_Payment);
 
     @Modifying
     @Query
-            (value = "update customer_invoice set status = ?1 where id_payment = ?2", nativeQuery = true)
+   (value = "update customer_invoice set status = ?1 where id_payment = ?2", nativeQuery = true)
     int updateStatusInvoice(boolean status, String id_payment);
 
-    @Query
-            (value = "select * from customer_invoice where Id_C_Invoice = ?", nativeQuery = true)
-    Customer_Invoice findById_C_Invoice(String id);
 }

@@ -36,11 +36,34 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
     @Autowired
     AreaRepository areaRepository;
 
+    @Autowired
+    Payment_C_Repository payment_c_repository;
+
+    @Autowired
+    Invoice_C_Repository invoice_c_repository;
+
     public BookingCustomerResponseDTO bookingCustomerResponseDTO;
+
+    public String message;
 
     @Override
     public BookingCustomerResponseDTO save(BookingCustomerDTO dto) {
 
+        List<Booking> bookingList = bookingRepository.findBookingByCustomer(dto.getIdUser());
+        if(bookingList.size() > 0)
+        for(Booking booking : bookingList)
+        {
+            Payment_C payment_c = payment_c_repository.findPayment_C_By_Id_Booking(booking.getId_Booking());
+            if(payment_c != null)
+            {
+                Customer_Invoice customer_invoice = invoice_c_repository.findCustomer_Invoice_By_Id_Payment(payment_c.getId_Payment());
+                if(bookingList.size() >= 1 && customer_invoice.isStatus() == false)
+                {
+                    message = "You have to payment before booking another slot";
+                    return null;
+                }
+            }
+        }
         Customer_Slot customerSlot = customer_slot_repository.findCustomerSlot(dto.getId_C_Slot(), dto.getId_Building());
         customerSlot.setType_Of_Vehicle(dto.getType_Of_Vehicle());
         customerSlot.setStatus_Slots(true);
@@ -60,9 +83,16 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
     }
 
     @Override
+    public String messageBooking() {
+        return message;
+    }
+
+    @Override
     public BookingCustomerResponseDTO findBooking() {
         return bookingCustomerResponseDTO;
     }
+
+
 
     @Override
     public List<BookingAPI> findAllBooking() {
@@ -95,7 +125,7 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
         Customer customer = customerRepository.findById(dto.getId_Customer()).get();
         customer.setCancel_of_payments(customer.getCancel_of_payments() + 1);
 
-        String message = "Delete Successfully";
+        message = "Delete Successfully";
 
         if(customer.getCancel_of_payments() == 4) // Send notification if cancel booking == 4
         {
@@ -104,7 +134,7 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
         else if(customer.getCancel_of_payments() + 1 >= 5) // Ban Account if cancel booking == 5
         {
             message = "Ban Customer";
-            customer.setStatus_Account(false);
+            customer.setStatus_Account(true);
         }
         customerRepository.save(customer);
 
@@ -113,6 +143,11 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
         booking.set_deleted(true);
         booking.set_enabled(false);
         bookingRepository.save(booking);
+        return message;
+    }
+
+    @Override
+    public String messageCancelBookingCustomer() {
         return message;
     }
 }

@@ -40,4 +40,16 @@ public class BookingCustomerController {
         CancelBookingDTO dto = mapper.readValue(json, CancelBookingDTO.class);
         return new ResponseEntity<>(bookingCustomerService.cancelBookingCustomer(dto), HttpStatus.OK);
     }
+
+    @GetMapping("/messageCancelBookingCustomer")
+    public ResponseEntity<String> messageCancelBookingCustomer()
+    {
+        return new ResponseEntity<>(bookingCustomerService.messageCancelBookingCustomer(), HttpStatus.OK);
+    }
+
+    @GetMapping("/messageBooking")
+    public ResponseEntity<String> messageBooking()
+    {
+        return new ResponseEntity<>(bookingCustomerService.messageBooking(), HttpStatus.OK);
+    }
 }
