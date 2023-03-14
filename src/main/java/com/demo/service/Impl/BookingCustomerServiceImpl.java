@@ -88,6 +88,11 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
     }
 
     @Override
+    public void deleteAll() {
+        bookingRepository.deleteAll();
+    }
+
+    @Override
     public BookingCustomerResponseDTO findBooking() {
         return bookingCustomerResponseDTO;
     }

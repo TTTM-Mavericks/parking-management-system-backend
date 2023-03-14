@@ -19,4 +19,6 @@ public interface AreaService {
     String delete (Long Id_Area);
 
     List<AreaAPI> findAllArea();
+
+    void deleteAll();
 }

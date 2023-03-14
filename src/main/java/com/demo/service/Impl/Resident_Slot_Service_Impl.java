@@ -98,4 +98,9 @@ public class Resident_Slot_Service_Impl implements Resident_Slot_Service {
                 areaRepository.findById(resident_slot.getArea().getId_Area()).get().getBuilding().getId_Building(),
                 resident_slot.isStatus_Slots() == true ? resident_slot.getResident().getIdUser() :  null);
     }
+
+    @Override
+    public void deleteAll() {
+        resident_slot_repository.deleteAll();
+    }
 }
