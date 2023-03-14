@@ -77,9 +77,4 @@ public class Customer_Slot_Service_Impl implements Customer_Slot_Service {
                 customerSlot.getType_Of_Vehicle(), customerSlot.isStatus_Slots(),
                 areaRepository.findById(customerSlot.getArea().getId_Area()).get().getBuilding().getId_Building());
     }
-
-    @Override
-    public void deleteAll() {
-        customer_slot_repository.deleteAll();
-    }
 }

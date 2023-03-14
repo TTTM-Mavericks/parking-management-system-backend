@@ -91,9 +91,4 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return list;
     }
-
-    @Override
-    public void deleteAll() {
-        customerRepository.deleteAll();
-    }
 }

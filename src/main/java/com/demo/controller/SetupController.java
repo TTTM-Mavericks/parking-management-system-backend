@@ -1,7 +1,5 @@
 package com.demo.controller;
 
-import com.demo.repository.Invoice_C_Repository;
-import com.demo.repository.Invoice_R_Repository;
 import com.demo.service.*;
 import com.demo.utils.request.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -299,7 +297,7 @@ public class SetupController {
             int index = random.nextInt(proper_noun.length-1);
             String json = "{" +
                     "    \"type_Of_Vehicle\": \""+proper_noun[index]+"\"," +
-                    "    \"status_Slots\":" + false + "," + // Math.round(Math.random()) + "," +
+                    "    \"status_Slots\":" + Math.round(Math.random()) + "," +
                     "    \"id_Area\": \"4\"," +
                     "    \"id_C_Slot\": \"C" + i + "\"" +
                     "}";
@@ -314,7 +312,7 @@ public class SetupController {
             int index = random.nextInt(proper_noun.length-1);
             String json = "{" +
                     "    \"type_Of_Vehicle\": \""+proper_noun[index]+"\"," +
-                    "    \"status_Slots\":" + false + "," + // Math.round(Math.random()) + "," +
+                    "    \"status_Slots\":" + Math.round(Math.random()) + "," +
                     "    \"id_Area\": \"5\"," +
                     "    \"id_C_Slot\": \"C" + i + "\"" +
                     "}";
@@ -329,7 +327,7 @@ public class SetupController {
             int index = random.nextInt(proper_noun.length-1);
             String json = "{" +
                     "    \"type_Of_Vehicle\": \""+proper_noun[index]+"\"," +
-                    "    \"status_Slots\":" + false + "," + // Math.round(Math.random()) + "," +
+                    "    \"status_Slots\":" + Math.round(Math.random()) + "," +
                     "    \"id_Area\": \"6\"," +
                     "    \"id_C_Slot\": \"C" + i + "\"" +
                     "}";
@@ -400,32 +398,5 @@ public class SetupController {
             System.out.println(dto);
             resident_slot_service.save(dto);
         }
-    }
-    @Autowired
-    BookingCustomerService bookingCustomerService;
-    @Autowired
-    PaymentCustomerService paymentCustomerService;
-    @Autowired
-    PaymentResidentService paymentResidentService;
-    @Autowired
-    Invoice_C_Repository invoice_c_repository;
-    @Autowired
-    Invoice_R_Repository invoice_r_repository;
-
-    @GetMapping("/deleteAll")
-    public void deleteAll() {
-        invoice_r_repository.deleteAll();
-        invoice_c_repository.deleteAll();
-        paymentResidentService.deleteAll();
-        paymentCustomerService.deleteAll();
-        bookingCustomerService.deleteAll();
-        resident_slot_service.deleteAll();
-        customer_slot_service.deleteAll();
-        areaService.deleteAll();
-        buildingService.deleteAll();
-        residentService.deleteAll();
-        customerService.deleteAll();
-        manageService.deleteAll();
-        userService.deleteAll();
     }
 }

@@ -21,6 +21,4 @@ public interface ResidentService {
     UserAPI findByIdResident(String idCustomer);
 
     List<UserAPI> findResidentAll();
-
-    void deleteAll();
 }

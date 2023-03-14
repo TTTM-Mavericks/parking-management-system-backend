@@ -99,11 +99,6 @@ public class PaymentCustomerServiceImpl implements PaymentCustomerService {
     }
 
     @Override
-    public void deleteAll() {
-        payment_c_repository.deleteAll();
-    }
-
-    @Override
     public PaymentCustomerReponseDTO findPayment() {
         return paymentReponseDTO;
     }

@@ -152,9 +152,4 @@ public class UserServiceImpl implements UserService {
         userRepository.save(dto);
         return dto;
     }
-
-    @Override
-    public void deleteAll() {
-        userRepository.deleteAll();
-    }
 }

@@ -117,9 +117,4 @@ public class BuildingServiceImpl implements BuildingService {
         }
         return list;
     }
-
-    @Override
-    public void deleteAll() {
-        buildingRepository.deleteAll();
-    }
 }

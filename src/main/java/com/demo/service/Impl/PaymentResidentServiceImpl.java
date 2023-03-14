@@ -77,9 +77,4 @@ public class PaymentResidentServiceImpl implements PaymentResidentService {
     public PaymentResidentResponseDTO findPayment() {
         return paymentResidentResponseDTO;
     }
-
-    @Override
-    public void deleteAll() {
-        payment_r_repository.deleteAll();
-    }
 }

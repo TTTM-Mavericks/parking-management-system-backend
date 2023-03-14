@@ -84,11 +84,6 @@ public class ResidentServiceImpl implements ResidentService {
     }
 
     @Override
-    public void deleteAll() {
-        residentRepository.deleteAll();
-    }
-
-    @Override
     public UserAPI findByIdResident(String idCustomer) {
         Resident resident = residentRepository.findById(idCustomer).get();
         User user = userRepository.findById(idCustomer).get();

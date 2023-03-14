@@ -21,6 +21,4 @@ public interface BuildingService {
     String delete (String Id_Building);
 
     List<BuildingAPI> findAllBuilding();
-
-    void deleteAll();
 }
