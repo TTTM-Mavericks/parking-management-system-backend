@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.demo.service.Impl.PaymentCustomerServiceImpl.calculateTotalOfMoney;
+
 @Service
 public class BookingCustomerServiceImpl implements BookingCustomerService {
     @Autowired
@@ -42,6 +44,7 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
     @Autowired
     Invoice_C_Repository invoice_c_repository;
 
+
     public BookingCustomerResponseDTO bookingCustomerResponseDTO;
 
     public String message;
@@ -67,29 +70,31 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
         Customer_Slot customerSlot = customer_slot_repository.findCustomerSlot(dto.getId_C_Slot(), dto.getId_Building());
         customerSlot.setType_Of_Vehicle(dto.getType_Of_Vehicle());
         customerSlot.setStatus_Slots(true);
-        customer_slot_repository.save(customerSlot);
+
 
         List<Booking> list = bookingRepository.findAll();
 
         Booking booking1 = new Booking(Long.parseLong(list.size() + 1 + ""),
                 dto.getStartDate(), dto.getEndDate(), dto.getStartTime(), dto.getEndTime(),
                 customerSlot, customerRepository.findById(dto.getIdUser()).get());
-        bookingRepository.save(booking1);
 
+
+        double Total_of_Money = calculateTotalOfMoney(customerSlot, booking1);
+        if(Total_of_Money == 0)
+        {
+            return new BookingCustomerResponseDTO();
+        }
+        customer_slot_repository.save(customerSlot);
+        bookingRepository.save(booking1);
         bookingCustomerResponseDTO =  new BookingCustomerResponseDTO(booking1.getId_Booking(), dto.getFullname(), dto.getEmail(), dto.getPhone(),
                 dto.getId_Building(), dto.getType_Of_Vehicle(), dto.getId_C_Slot(), dto.getStartDate(),
-                dto.getEndDate(), dto.getStartTime(), dto.getEndTime(), 26);
+                dto.getEndDate(), dto.getStartTime(), dto.getEndTime(), Total_of_Money);
         return  bookingCustomerResponseDTO;
     }
 
     @Override
     public String messageBooking() {
         return message;
-    }
-
-    @Override
-    public void deleteAll() {
-        bookingRepository.deleteAll();
     }
 
     @Override

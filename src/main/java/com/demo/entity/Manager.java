@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Manager {
+public class Manager{
     @Id
     @Column(name = "Id_Manager", unique = false)
     private String IdUser;

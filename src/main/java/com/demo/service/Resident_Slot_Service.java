@@ -18,5 +18,4 @@ public interface Resident_Slot_Service {
 
     Resident_Slot_API findByIdResidentSlot(Long id);
 
-    void deleteAll();
 }

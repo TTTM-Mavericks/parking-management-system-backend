@@ -80,4 +80,10 @@ public interface UserRepository extends JpaRepository<User, String> {
                     "where u.phone like %?1%", nativeQuery = true
     )
     List<User> searchResidentByPhone(String phone);
+
+    @Query
+    (
+            value = "select * from users where id_user = ?1 and password = ?2", nativeQuery = true
+    )
+    User findUserByUsernameAndPassword(String id_user, String password);
 }

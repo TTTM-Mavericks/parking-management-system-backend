@@ -17,6 +17,4 @@ public interface ManageService {
     ManagerResponseDTO update(ManagerDTO dto, String IdUser);
 
     String delete (String IdUser);
-
-    void deleteAll();
 }

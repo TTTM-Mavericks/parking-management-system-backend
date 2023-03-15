@@ -7,6 +7,4 @@ public interface PaymentResidentService {
     PaymentResidentResponseDTO save(PaymentResidentDTO dto);
 
     PaymentResidentResponseDTO findPayment();
-
-    void deleteAll();
 }

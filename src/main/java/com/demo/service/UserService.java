@@ -29,5 +29,4 @@ public interface UserService {
 
     User updateCustomer(UserDTO dto);
 
-    void deleteAll();
 }
