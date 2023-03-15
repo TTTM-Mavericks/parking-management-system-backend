@@ -67,6 +67,7 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
         for (InvoiceCustomerResponse ci : customerInvoices) {
             System.out.println(ci.getId_C_Invoice());
             Payment_C pc = paymentCRepository.findPaymentByInvoiceId(ci.getId_C_Invoice());
+            String id_invoice = pc.getCustomer_invoice().getId_C_Invoice();
             Booking bk = bookingRepository.findBookingByIdPayment(pc.getId_Payment());
             Date end_date = pc.getBooking().getEndDate();
             Date current_date = new Date();
@@ -122,7 +123,7 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
             if (warning == true) {
                 String current_time = current_date.getHours() + ":" + current_date.getMinutes();
                 ExpiredResponse ex = new ExpiredResponse(id
-                        , "ci.getId_C_Invoice()"
+                        , id_invoice
                         , current_date
                         , current_time
                         , end_date

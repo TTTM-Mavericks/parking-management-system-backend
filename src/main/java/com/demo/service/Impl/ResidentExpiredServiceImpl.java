@@ -62,6 +62,7 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
             Date end_date = ri.getTime();
             Date current_date = new Date();
             Payment_R pr = paymentRRepository.findPaymentByInvoiceId(ri.getId_R_Invoice());
+            String id_invoice = pr.getResident_invoice().getId_R_Invoice();
             Resident_Slot rs = pr.getResident().getResidentSlot();
 
             TimeZone vietnamTimeZone = TimeZone.getTimeZone("Asia/Ho_Chi_Minh");
@@ -103,7 +104,7 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
                 String current_time = current_date.getHours() + ":" + current_date.getMinutes();
                 String end_time = "00:00";
                 ExpiredResponse ex = new ExpiredResponse(pr.getResident().getIdUser()
-                        , "ri.getId_R_Invoice()"
+                        , id_invoice
                         , current_date
                         , current_time
                         , end_date
