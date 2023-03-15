@@ -11,11 +11,12 @@ import java.util.Date;
 @NoArgsConstructor
 public class ExpiredResponse {
     String id_user;
+    String id_invoice;
     Date current_date;
     String current_time;
     Date end_date;
     String end_time;
     int expired;
-    float fine;
+    double fine;
     boolean warning;
 }
