@@ -103,7 +103,7 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
                 String current_time = current_date.getHours() + ":" + current_date.getMinutes();
                 String end_time = "00:00";
                 ExpiredResponse ex = new ExpiredResponse(pr.getResident().getIdUser()
-//                        , ri.getId_R_Invoice()
+                        , "ri.getId_R_Invoice()"
                         , current_date
                         , current_time
                         , end_date
