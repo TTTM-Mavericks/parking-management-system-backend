@@ -16,6 +16,6 @@ public class ExpiredResponse {
     Date end_date;
     String end_time;
     int expired;
-    float fine;
+    double fine;
     boolean warning;
 }

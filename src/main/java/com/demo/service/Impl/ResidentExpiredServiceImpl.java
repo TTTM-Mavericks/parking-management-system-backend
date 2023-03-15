@@ -1,17 +1,18 @@
 package com.demo.service.Impl;
 
-import com.demo.entity.Payment_R;
-import com.demo.entity.Resident;
-import com.demo.entity.Resident_Invoice;
+import com.demo.entity.*;
 import com.demo.repository.Invoice_R_Repository;
 import com.demo.repository.Payment_R_Repository;
 import com.demo.repository.ResidentRepository;
 import com.demo.service.ResidentExpiredService;
 import com.demo.utils.response.ExpiredResponse;
+import com.demo.utils.response.InvoiceResidentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+
+import static com.demo.entity.Money.*;
 
 @Service
 public class ResidentExpiredServiceImpl implements ResidentExpiredService {
@@ -26,29 +27,42 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
     Invoice_R_Repository invoice_r_repository;
 
     @Override
-    public List<Resident_Invoice> findAllResidentInvoiceByResidentID(String id) {
+    public List<InvoiceResidentResponse> findAllResidentInvoiceByResidentID(String id) {
         Optional<Resident> re = residentRepository.findById(id);
-        List<Resident_Invoice> RIList = null;
+        List<InvoiceResidentResponse> RIList = null;
         if (re != null) {
             List<Payment_R> pr = paymentRRepository.findAllPaymentByResident(id);
             for (Payment_R payment_r : pr) {
                 Resident_Invoice ri = invoice_r_repository.findResident_InvoiceByResidentPayment(payment_r.getId_Payment());
+                InvoiceResidentResponse irr = new InvoiceResidentResponse(
+                        ri.getId_R_Invoice(),
+                        payment_r.getId_Payment(),
+                        payment_r.getType(),
+                        ri.isStatus(),
+                        ri.getTotal_Of_Money(),
+                        ri.getTime(),
+                        id);
                 if (RIList == null) {
                     RIList = new ArrayList<>();
                 }
-                if(ri != null)
-                    RIList.add(ri);
+                if (ri != null)
+                    RIList.add(irr);
             }
         }
         return RIList;
     }
 
+//    @Autowired
+//    MoneyService moneyService;
+
     @Override
-    public List<ExpiredResponse> checkExpired(String id, List<Resident_Invoice> resident_invoiceList) {
+    public List<ExpiredResponse> checkExpired(String id, List<InvoiceResidentResponse> resident_invoiceList) {
         List<ExpiredResponse> expiredResidentResponseList = null;
-        for (Resident_Invoice ri : resident_invoiceList) {
+        for (InvoiceResidentResponse ri : resident_invoiceList) {
             Date end_date = ri.getTime();
             Date current_date = new Date();
+            Payment_R pr = paymentRRepository.findPaymentByInvoiceId(ri.getId_R_Invoice());
+            Resident_Slot rs = pr.getResident().getResidentSlot();
 
             TimeZone vietnamTimeZone = TimeZone.getTimeZone("Asia/Ho_Chi_Minh");
             Calendar calendar = Calendar.getInstance(vietnamTimeZone);
@@ -63,22 +77,32 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
             System.out.println(current_day + ":" + current_month);
             System.out.println(end_day + ":" + end_month);
 
-            int expired = 0;
-            float fine = 0;
+            int expired = 1;
+            double fine = 0;
             boolean warning = false;
+            double type_money = 1;
+            System.out.println(rs.getType_Of_Vehicle());
+            if (rs.getType_Of_Vehicle().equals("Motor")) {
+                type_money = MOTO_MONEY_BY_DAY * 1.5;
+            } else if (rs.getType_Of_Vehicle().equals("Car")) {
+                type_money = CAR_MONEY_BY_DAY * 1.5;
+            } else if (rs.getType_Of_Vehicle().equals("Bike")) {
+                type_money = BIKE_MONEY_BY_DAY * 1.5;
+            }
+            System.out.println(CAR_MONEY_BY_DAY);
             if (end_month == current_month) {
                 expired = (current_day - end_day);
-                fine = expired * 10;
+                fine = expired * type_money;
                 warning = true;
             } else if (end_month < current_month) {
                 expired = Math.abs(current_day - end_day) + (current_month - end_month) * 31;
-                fine = expired * 10;
+                fine = expired * type_money;
                 warning = true;
             }
             if (warning == true) {
                 String current_time = current_date.getHours() + ":" + current_date.getMinutes();
                 String end_time = "00:00";
-                ExpiredResponse ex = new ExpiredResponse(ri.getPayment_r().getResident().getIdUser()
+                ExpiredResponse ex = new ExpiredResponse(pr.getResident().getIdUser()
                         , current_date
                         , current_time
                         , end_date
@@ -89,8 +113,8 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
                 if (expiredResidentResponseList == null) {
                     expiredResidentResponseList = new ArrayList<>();
                 }
-                if(ex != null)
-                expiredResidentResponseList.add(ex);
+                if (ex != null)
+                    expiredResidentResponseList.add(ex);
             }
         }
         return expiredResidentResponseList;
