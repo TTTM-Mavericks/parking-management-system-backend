@@ -22,4 +22,6 @@ public interface BookingCustomerService {
     String messageCancelBookingCustomer();
 
     String messageBooking();
+
+    void deleteAll();
 }

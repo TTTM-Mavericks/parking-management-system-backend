@@ -11,4 +11,5 @@ public interface PaymentCustomerService {
 
     PaymentCustomerReponseDTO UpdateTypeOfPayment(PaymentCustomerReponseDTO dto);
 
+    void deleteAll();
 }

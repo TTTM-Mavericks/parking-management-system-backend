@@ -5,8 +5,6 @@ import com.demo.entity.Resident_Invoice;
 import com.demo.service.CustomerExpiredService;
 import com.demo.service.ResidentExpiredService;
 import com.demo.utils.response.ExpiredResponse;
-import com.demo.utils.response.InvoiceCustomerResponse;
-import com.demo.utils.response.InvoiceResidentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/expired")
@@ -30,7 +29,7 @@ public class ExpiredController {
     }
 
     @GetMapping("/findAllInvoiceR/{id}")
-    public ResponseEntity<List<InvoiceResidentResponse>> findAllInvoice(@PathVariable("id") String id){
+    public ResponseEntity<List<Resident_Invoice>> findAllInvoice(@PathVariable("id") String id){
         return new ResponseEntity<>(residentExpiredService.findAllResidentInvoiceByResidentID(id), HttpStatus.OK);
     }
 
@@ -44,7 +43,7 @@ public class ExpiredController {
     }
 
     @GetMapping("/findAllInvoiceC/{id}")
-    public ResponseEntity<List<InvoiceCustomerResponse>> findAllInvoiceC(@PathVariable("id") String id){
+    public ResponseEntity<List<Customer_Invoice>> findAllInvoiceC(@PathVariable("id") String id){
         return new ResponseEntity<>(customerExpiredService.findAllCustomerInvoiceByCustomerID(id), HttpStatus.OK);
     }
 

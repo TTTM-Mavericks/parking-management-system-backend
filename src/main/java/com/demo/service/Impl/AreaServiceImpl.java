@@ -89,4 +89,9 @@ public class AreaServiceImpl implements AreaService {
         }
         return list;
     }
+
+    @Override
+    public void deleteAll() {
+        areaRepository.deleteAll();
+    }
 }

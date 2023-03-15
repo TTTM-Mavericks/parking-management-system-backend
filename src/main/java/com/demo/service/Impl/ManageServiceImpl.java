@@ -58,6 +58,11 @@ public class ManageServiceImpl implements ManageService {
         return "Delete Successfully";
     }
 
+    @Override
+    public void deleteAll() {
+        managerRepository.deleteAll();
+    }
+
     public static ManagerResponseDTO mapperedToManager(Manager manager)
     {
         ManagerResponseDTO dto =  new ManagerResponseDTO();

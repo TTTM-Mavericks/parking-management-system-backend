@@ -20,4 +20,6 @@ public interface Customer_Slot_Service {
     List<Customer_Slot_API> listAllCustomerSlot();
 
     Customer_Slot_API findByIdCustomerSlot(Long id);
+
+    void deleteAll();
 }

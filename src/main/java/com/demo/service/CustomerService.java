@@ -24,4 +24,6 @@ public interface CustomerService {
     UserAPI findByIdCustomer(String idCustomer);
 
     List<UserAPI> findCustomerAll();
+
+    void deleteAll();
 }
