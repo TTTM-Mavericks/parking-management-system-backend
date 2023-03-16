@@ -90,10 +90,10 @@ public class SecurityServiceImpl implements SecurityService {
             if(resident_slot.isStatus_Slots() == true)
             {
                 User user = userRepository.findById(resident_slot.getResident().getIdUser()).get();
-                list.add(user);
-//                Customer customer = customerRepository.findById(user.getId()).get();
-//                list.add(new UserAPI(user.getId(), user.getFullname(), user.getPassword(), user.isGender(), user.getDateofbirth(),
-//                        user.getEmail(), user.getPhone(), customer.isStatus_Account()));
+//                list.add(user);
+                Resident res = residentRepository.findById(user.getId()).get();
+                list.add(new UserAPI(user.getId(), user.getFullname(), user.getPassword(), user.isGender(), user.getDateofbirth(),
+                        user.getEmail(), user.getPhone(), res.isStatus_Account()));
             }
         }
         return list;
