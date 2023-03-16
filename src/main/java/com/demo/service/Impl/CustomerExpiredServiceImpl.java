@@ -77,7 +77,7 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
             calendar.setTime(current_date);
             int current_month = calendar.get(Calendar.MONTH) + 1; // Note: Calendar.MONTH is zero-based, so add 1
             int current_day = calendar.get(Calendar.DAY_OF_MONTH);
-            int current_hours = calendar.get(Calendar.HOUR_OF_DAY);
+            int current_hours = calendar.get(Calendar.HOUR_OF_DAY) + 7;
 
             calendar.setTime(end_date);
             int end_month = calendar.get(Calendar.MONTH) + 1;
