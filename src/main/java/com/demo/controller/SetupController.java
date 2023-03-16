@@ -124,7 +124,7 @@ public class SetupController {
     public void createCustomer() throws JsonProcessingException {
         for (int i = 10; i <= 25; i++) {
             String json = "{" +
-                    "    \"status_Account\":" + Math.round(Math.random()) + "," +
+                    "    \"status_Account\":" + false + "," +
                     "    \"idUser\": \"user" + i + "\"" +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
