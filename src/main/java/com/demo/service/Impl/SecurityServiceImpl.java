@@ -82,8 +82,8 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public List<User> getAllResidentFromBuilding(String Id_Building) {
-        List<User> list = new ArrayList<>();
+    public List<UserAPI> getAllResidentFromBuilding(String Id_Building) {
+        List<UserAPI> list = new ArrayList<>();
         List<Resident_Slot> residentSlotList = resident_slot_repository.findAllSlotOfEachBuilding(Id_Building);
         for(Resident_Slot resident_slot : residentSlotList)
         {
