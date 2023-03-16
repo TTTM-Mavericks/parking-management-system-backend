@@ -12,7 +12,7 @@ import java.util.List;
 public interface SecurityService {
     List<UserAPI> getAllCustomerFromBuilding(String Id_Building);
 
-    List<User> getAllResidentFromBuilding(String Id_Building);
+    List<UserAPI> getAllResidentFromBuilding(String Id_Building);
 
     InvoiceCustomerResponse searchCustomerInvoiceId(String Id_C_Invoice);
 
