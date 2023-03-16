@@ -31,7 +31,7 @@ public class Manager{
         IdUser = idUser;
         this.user = user;
         Role = role;
-        this.Status_Account = true;
+        this.Status_Account = false;
     }
 
     @OneToOne(mappedBy = "manager")

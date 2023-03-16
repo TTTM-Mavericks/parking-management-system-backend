@@ -215,17 +215,21 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public User createNewResident(User dto) {
+    public String createNewResident(User dto) {
+        Resident resident = residentRepository.findById(dto.getId()).orElse(null);
+        if(resident != null) return "Resident Account is existed in DB";
         userRepository.save(dto);
-        residentRepository.save(new Resident(dto.getId(),  userRepository.findById(dto.getId()).get(), true));
-        return dto;
+        residentRepository.save(new Resident(dto.getId(),  userRepository.findById(dto.getId()).get(), false));
+        return "Create Resident Account Successfully";
     }
 
     @Override
-    public User createNewCustomer(User dto) {
+    public String createNewCustomer(User dto) {
+        Customer customer = customerRepository.findById(dto.getId()).orElse(null);
+        if(customer != null) return "Customer Account is existed in DB";
         userRepository.save(dto);
-        customerRepository.save(new Customer(dto.getId(), true, userRepository.findById(dto.getId()).get()));
-        return dto;
+        customerRepository.save(new Customer(dto.getId(), false, userRepository.findById(dto.getId()).get()));
+        return "Create Customer Account Successfully";
     }
 
     @Override

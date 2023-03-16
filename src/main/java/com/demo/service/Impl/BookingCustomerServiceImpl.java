@@ -52,6 +52,12 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
     @Override
     public BookingCustomerResponseDTO save(BookingCustomerDTO dto) {
 
+        Customer customer = customerRepository.findById(dto.getIdUser()).get();
+        if(customer.isStatus_Account() == true)
+        {
+            message = "Your Account has been banned you can not book";
+            return null;
+        }
         List<Booking> bookingList = bookingRepository.findBookingByCustomer(dto.getIdUser());
         if(bookingList.size() > 0)
         for(Booking booking : bookingList)
@@ -68,6 +74,11 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
             }
         }
         Customer_Slot customerSlot = customer_slot_repository.findCustomerSlot(dto.getId_C_Slot(), dto.getId_Building());
+        if(customerSlot.isStatus_Slots() == true)
+        {
+            message = "The Slot is not empty. You cannot book that slot";
+            return null;
+        }
         customerSlot.setType_Of_Vehicle(dto.getType_Of_Vehicle());
         customerSlot.setStatus_Slots(true);
 
@@ -82,7 +93,8 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
         double Total_of_Money = calculateTotalOfMoney(customerSlot, booking1);
         if(Total_of_Money == 0)
         {
-            return new BookingCustomerResponseDTO();
+            message = "Invalid Date Type of DateStart DateEnd StartTime EndTime";
+            return null;
         }
         customer_slot_repository.save(customerSlot);
         bookingRepository.save(booking1);

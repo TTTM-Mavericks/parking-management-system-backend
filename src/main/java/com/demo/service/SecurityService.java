@@ -29,9 +29,9 @@ public interface SecurityService {
 
     List<InvoiceResidentResponse> findAllResidentInvoice();
 
-    User createNewResident(User dto);
+    String createNewResident(User dto);
 
-    User createNewCustomer(User dto);
+    String createNewCustomer(User dto);
 
     User updateCustomer_Resident(String idUser, UpdateDTO dto);
 

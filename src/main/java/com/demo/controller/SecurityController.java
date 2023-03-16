@@ -27,7 +27,7 @@ public class SecurityController {
     Customer_Slot_Repository customer_slot_repository;
 
     @PostMapping("/createCustomer")
-    public ResponseEntity<User> createCustomer(@RequestBody String json) throws Exception {
+    public ResponseEntity<String> createCustomer(@RequestBody String json) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         User dto = mapper.readValue(json, User.class);
         return new ResponseEntity<>(securityService.createNewCustomer(dto), HttpStatus.OK);
@@ -97,7 +97,7 @@ public class SecurityController {
     }
 
     @PostMapping("/createResident")
-    public ResponseEntity<User> createResident(@RequestBody String json) throws Exception {
+    public ResponseEntity<String> createResident(@RequestBody String json) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         User dto = mapper.readValue(json, User.class);
         return new ResponseEntity<>(securityService.createNewResident(dto), HttpStatus.OK);
