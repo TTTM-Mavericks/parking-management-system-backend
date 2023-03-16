@@ -297,7 +297,7 @@ public class SetupController {
             int index = random.nextInt(proper_noun.length-1);
             String json = "{" +
                     "    \"type_Of_Vehicle\": \""+proper_noun[index]+"\"," +
-                    "    \"status_Slots\":" + Math.round(Math.random()) + "," +
+                    "    \"status_Slots\":" + false + "," +
                     "    \"id_Area\": \"4\"," +
                     "    \"id_C_Slot\": \"C" + i + "\"" +
                     "}";
@@ -312,7 +312,7 @@ public class SetupController {
             int index = random.nextInt(proper_noun.length-1);
             String json = "{" +
                     "    \"type_Of_Vehicle\": \""+proper_noun[index]+"\"," +
-                    "    \"status_Slots\":" + Math.round(Math.random()) + "," +
+                    "    \"status_Slots\":" + false + "," +
                     "    \"id_Area\": \"5\"," +
                     "    \"id_C_Slot\": \"C" + i + "\"" +
                     "}";
@@ -327,7 +327,7 @@ public class SetupController {
             int index = random.nextInt(proper_noun.length-1);
             String json = "{" +
                     "    \"type_Of_Vehicle\": \""+proper_noun[index]+"\"," +
-                    "    \"status_Slots\":" + Math.round(Math.random()) + "," +
+                    "    \"status_Slots\":" + false + "," +
                     "    \"id_Area\": \"6\"," +
                     "    \"id_C_Slot\": \"C" + i + "\"" +
                     "}";
