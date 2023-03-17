@@ -45,6 +45,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String changePassword(String id, String newPassword) {
+        User user = userRepository.findById(id).get();
+        if (user != null)
+        {
+            user.setPassword(newPassword);
+            userRepository.save(user);
+        }
+        return "Success";
+    }
+
+    @Override
     public UserResponseDTO save(UserDTO user){
         User dto = new User();
         dto.setId(user.getId());
@@ -114,7 +125,7 @@ public class UserServiceImpl implements UserService {
         dto.setFullname(user.getFullname());
         dto.setPhone(user.getPhone());
         userRepository.save(dto);
-        customerRepository.save(new Customer(dto.getId(), false, dto));
+        customerRepository.save(new Customer(dto.getId(), true, dto));
         return mapperedToUserResponse(dto);
     }
 
