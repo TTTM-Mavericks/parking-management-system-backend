@@ -24,24 +24,12 @@ public class ExpiredController {
     @Autowired
     ResidentExpiredService residentExpiredService;
 
-    @GetMapping("/checkExpiredR/{id}")
-    public ResponseEntity<List<ExpiredResponse>> getAllExpired(@PathVariable("id") String id) {
-        return new ResponseEntity<>(residentExpiredService.checkExpired(id,
-                residentExpiredService.findAllResidentInvoiceByResidentID(id)), HttpStatus.OK);
-    }
-
-    @GetMapping("/getFeeCutomer/{id_invoice}")
-    public ResponseEntity<FeeResponse> getCustomerFee(@PathVariable("id_invoice") String id_invoice){
-        return new ResponseEntity<>(customerExpiredService.getCustomerFee(id_invoice), HttpStatus.CREATED);
-    }
-
-    @GetMapping("/findAllInvoiceR/{id}")
-    public ResponseEntity<List<InvoiceResidentResponse>> findAllInvoice(@PathVariable("id") String id){
-        return new ResponseEntity<>(residentExpiredService.findAllResidentInvoiceByResidentID(id), HttpStatus.OK);
-    }
-
     @Autowired
     CustomerExpiredService customerExpiredService;
+    @GetMapping("/findAllInvoiceC/{id}")
+    public ResponseEntity<List<InvoiceCustomerResponse>> findAllInvoiceC(@PathVariable("id") String id){
+        return new ResponseEntity<>(customerExpiredService.findAllCustomerInvoiceByCustomerID(id), HttpStatus.OK);
+    }
 
     @GetMapping("/checkExpiredC/{id}")
     public ResponseEntity<List<ExpiredResponse>> getAllExpiredC(@PathVariable("id") String id) {
@@ -49,22 +37,34 @@ public class ExpiredController {
                 customerExpiredService.findAllCustomerInvoiceByCustomerID(id)), HttpStatus.OK);
     }
 
+    @GetMapping("/getFeeCutomer/{id_invoice}")
+    public ResponseEntity<FeeResponse> getCustomerFee(@PathVariable("id_invoice") String id_invoice){
+        return new ResponseEntity<>(customerExpiredService.getCustomerFee(id_invoice), HttpStatus.CREATED);
+    }
+    @GetMapping("/payC/{id_invoice}")
+    public ResponseEntity<String> payFeeC(@PathVariable("id_invoice") String id_invoice){
+        return new ResponseEntity<>(customerExpiredService.payFeeC(id_invoice), HttpStatus.OK);
+    }
+
+    @GetMapping("/findAllInvoiceR/{id}")
+    public ResponseEntity<List<InvoiceResidentResponse>> findAllInvoice(@PathVariable("id") String id){
+        return new ResponseEntity<>(residentExpiredService.findAllResidentInvoiceByResidentID(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/checkExpiredR/{id}")
+    public ResponseEntity<List<ExpiredResponse>> getAllExpired(@PathVariable("id") String id) {
+        return new ResponseEntity<>(residentExpiredService.checkExpired(id,
+                residentExpiredService.findAllResidentInvoiceByResidentID(id)), HttpStatus.OK);
+    }
+
     @GetMapping("/getFeeResident/{id_invoice}")
     public ResponseEntity<FeeResponse> getResidentFee(@PathVariable("id_invoice") String id_invoice){
         return new ResponseEntity<>(residentExpiredService.getResidentFee(id_invoice), HttpStatus.CREATED);
     }
 
-    @GetMapping("/findAllInvoiceC/{id}")
-    public ResponseEntity<List<InvoiceCustomerResponse>> findAllInvoiceC(@PathVariable("id") String id){
-        return new ResponseEntity<>(customerExpiredService.findAllCustomerInvoiceByCustomerID(id), HttpStatus.OK);
-    }
-
-    @GetMapping("/payC/{id_invoice}")
-    public ResponseEntity<String> payFeeC(@PathVariable("id_invoice") String id_invoice){
-        return new ResponseEntity<>(customerExpiredService.payFeeC(id_invoice), HttpStatus.OK);
-    }
     @GetMapping("/payR/{id_invoice}")
     public ResponseEntity<String> payFeeR(@PathVariable("id_invoice") String id_invoice){
         return new ResponseEntity<>(residentExpiredService.payFeeR(id_invoice), HttpStatus.OK);
     }
+
 }

@@ -93,11 +93,13 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
             }
             System.out.println(CAR_MONEY_BY_DAY);
             if (end_month == current_month) {
-                expired = (current_day - end_day);
-                fine = expired * type_money;
-                warning = true;
+                if(current_day > end_day) {
+                    expired = (current_day - end_day);
+                    fine = expired * type_money;
+                    warning = true;
+                }
             } else if (end_month < current_month) {
-                expired = Math.abs(current_day - end_day) + (current_month - end_month) * 31;
+                expired = current_day - end_day + (current_month - end_month) * 31;
                 fine = expired * type_money;
                 warning = true;
             }
@@ -147,6 +149,7 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
                             ri.getTotal_Of_Money() + er.getFine(),
                             ri.getTotal_Of_Money(),
                             er.getFine());
+                    invoice_r_repository.updateStatus(false, id_invoice);
                     break;
                 }
             }
@@ -181,11 +184,13 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
         Resident re = pr.getResident();
         List<ExpiredResponse> expiredList = checkExpired(re.getIdUser(), findAllResidentInvoiceByResidentID(re.getIdUser()));
         FeeResponse fee = null;
-        if (ri.isStatus() == true) {
+        if (ri.isStatus() == false) {
             for (ExpiredResponse er : expiredList) {
                 if (er.getId_invoice().equals(id_invoice) && er.isWarning()) {
 //                    ri.setStatus(true);
 //                    er.setWarning(false);
+                    invoice_r_repository.updateStatus(false, id_invoice);
+                    invoice_r_repository.updateTime(er.getCurrent_date(), id_invoice);
                     break;
                 }
             }
