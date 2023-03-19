@@ -471,7 +471,7 @@ public class SetupController {
             String json = "{" +
                     "    \"type_Of_Vehicle\": \""+"Bike"+"\"," +
                     "    \"status_Slots\":" + false + "," +
-                    "    \"id_Area\": \"1\"," +
+                    "    \"id_Area\": \"2\"," +
                     "    \"id_R_Slot\": \"R" + i + "\"" +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
@@ -484,7 +484,7 @@ public class SetupController {
             String json = "{" +
                     "    \"type_Of_Vehicle\": \""+"Bike"+"\"," +
                     "    \"status_Slots\":" + false + "," +
-                    "    \"id_Area\": \"1\"," +
+                    "    \"id_Area\": \"2\"," +
                     "    \"id_R_Slot\": \"R" + i + "\"" +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
@@ -497,7 +497,7 @@ public class SetupController {
             String json = "{" +
                     "    \"type_Of_Vehicle\": \""+"Bike"+"\"," +
                     "    \"status_Slots\":" + false + "," +
-                    "    \"id_Area\": \"1\"," +
+                    "    \"id_Area\": \"2\"," +
                     "    \"id_R_Slot\": \"R" + i + "\"" +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
@@ -510,7 +510,7 @@ public class SetupController {
             String json = "{" +
                     "    \"type_Of_Vehicle\": \""+"Motor"+"\"," +
                     "    \"status_Slots\":" + false + "," +
-                    "    \"id_Area\": \"1\"," +
+                    "    \"id_Area\": \"3\"," +
                     "    \"id_R_Slot\": \"R" + i + "\"" +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
@@ -523,7 +523,7 @@ public class SetupController {
             String json = "{" +
                     "    \"type_Of_Vehicle\": \""+"Motor"+"\"," +
                     "    \"status_Slots\":" + false + "," +
-                    "    \"id_Area\": \"1\"," +
+                    "    \"id_Area\": \"3\"," +
                     "    \"id_R_Slot\": \"R" + i + "\"" +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
@@ -536,7 +536,7 @@ public class SetupController {
             String json = "{" +
                     "    \"type_Of_Vehicle\": \""+"Bike"+"\"," +
                     "    \"status_Slots\":" + false + "," +
-                    "    \"id_Area\": \"1\"," +
+                    "    \"id_Area\": \"3\"," +
                     "    \"id_R_Slot\": \"R" + i + "\"" +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
