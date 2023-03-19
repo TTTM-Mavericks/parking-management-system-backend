@@ -9,7 +9,7 @@ import com.demo.utils.response.Resident_Slot_Response_DTO;
 import java.util.List;
 
 public interface Resident_Slot_Service {
-    Resident_Slot_Response_DTO save(Resident_Slot_DTO dto);
+    String save(Resident_Slot_DTO dto);
 
     Resident_Slot_Response_DTO saveResidentSlot(Resident_Slot_DTO dto);
     Resident_Slot_Response_DTO find_Resident_Slot();
