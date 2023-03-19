@@ -41,18 +41,31 @@ public class PaymentResidentServiceImpl implements PaymentResidentService {
             return null;
 
         }
+        Resident_Slot residentSlot = resident_slot_repository.findResidentSlotByIdResident(dto.getIdUser());
+        if(residentSlot == null){
+            List<Resident_Slot> residentSlotList = resident_slot_repository.findAll();
+            for (Resident_Slot rs : residentSlotList) {
+                if(rs.getResident() == null){
+                    rs.setResident(resident);
+                    resident_slot_repository.save(rs);
+                    break;
+                }
+            }
+        }
+        residentSlot = resident_slot_repository.findResidentSlotByIdResident(dto.getIdUser());
+//        if(residentSlot.isStatus_Slots() == true)
+//        {
+//            message = "The slot is not empty you can not book that slot";
+//            return null;
+//        }
         List<Payment_R> list = payment_r_repository.findAll();
-        Payment_R  payment_r = new Payment_R("PR" + (list.size() + 1), dto.getTypeOfPayment(), resident);
+        Payment_R payment_r = new Payment_R("PR" + (list.size() + 1), dto.getTypeOfPayment(), resident);
         payment_r_repository.save(payment_r);
 
         double Total_Of_Money = 0;
-
-        Resident_Slot residentSlot = resident_slot_repository.findResidentSlotByIdResident(dto.getIdUser());
-        if(residentSlot.isStatus_Slots() == true)
-        {
-            message = "The slot is not empty you can not book that slot";
-            return null;
-        }
+//        if(dto.getTypeOfPayment().equals("Cash"))
+//        residentSlot.setStatus_Slots(false);
+//        else
         residentSlot.setStatus_Slots(true);
         resident_slot_repository.save(residentSlot);
         String type_of_vehicle = residentSlot.getType_Of_Vehicle();

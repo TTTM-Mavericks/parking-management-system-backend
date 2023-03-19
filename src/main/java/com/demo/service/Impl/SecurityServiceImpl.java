@@ -96,7 +96,7 @@ public class SecurityServiceImpl implements SecurityService {
                         for(Payment_R payment_r : listPayment)
                         {
                             Resident_Invoice resident_invoice = invoice_r_repository.findResident_InvoiceByResidentPayment(payment_r.getId_Payment());
-                            if (resident_invoice != null && !set.contains(resident_slot.getResident().getIdUser()) && resident_invoice.isStatus())
+                            if (resident_invoice != null && !set.contains(resident_slot.getResident().getIdUser()))
                             {
 //                                System.out.println(resident_invoice.getId_R_Invoice());
                                 list.add(new ResidentAPI(user.getId(), user.getFullname(), user.getPassword(), user.isGender(), user.getDateofbirth(),
