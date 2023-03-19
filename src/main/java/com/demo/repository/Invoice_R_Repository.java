@@ -17,8 +17,8 @@ public interface Invoice_R_Repository extends JpaRepository<Resident_Invoice, St
 
     @Query
             (value = "update resident_invoice set status = ?1 where id_r_invoice = ?2", nativeQuery = true)
-    void updateStatus(boolean status, String id_invoice);
+    int updateStatus(boolean status, String id_invoice);
     @Query
             (value = "update resident_invoice set time = ?1 where id_r_invoice = ?2", nativeQuery = true)
-    void updateTime(Date status, String id_invoice);
+    int updateTime(Date status, String id_invoice);
 }

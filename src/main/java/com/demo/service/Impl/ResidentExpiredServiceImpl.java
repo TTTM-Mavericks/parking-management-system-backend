@@ -130,50 +130,52 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
         Payment_R pr = paymentRRepository.findPaymentByInvoiceId(id_invoice);
         Resident_Invoice ri = invoice_r_repository.findResident_InvoiceByResidentPayment(pr.getId_Payment());
         Resident re = pr.getResident();
-        List<ExpiredResponse> expiredList = checkExpired(re.getIdUser(), findAllResidentInvoiceByResidentID(re.getIdUser()));
+        System.out.println(re.getIdUser());
+//        List<InvoiceResidentResponse> invoiceList = findAllResidentInvoiceByResidentID(re.getIdUser());
+//        List<ExpiredResponse> expiredList = checkExpired(re.getIdUser(), invoiceList);
         FeeResponse fee = null;
-        if (ri.isStatus() == true) {
-            for (ExpiredResponse er : expiredList) {
-                if (er.getId_invoice().equals(id_invoice) && er.isWarning()) {
-                    fee = new FeeResponse(id_invoice,
-                            re.getIdUser(),
-                            er.isWarning(),
-                            er.getCurrent_date(),
-                            er.getCurrent_time(),
-                            er.getEnd_date(),
-                            er.getEnd_time(),
-                            er.getExpired(),
-                            ri.getTotal_Of_Money(),
-                            er.getFine(),
-                            er.isWarning(),
-                            ri.getTotal_Of_Money() + er.getFine(),
-                            ri.getTotal_Of_Money(),
-                            er.getFine());
-                    invoice_r_repository.updateStatus(false, id_invoice);
-                    break;
-                }
-            }
-        } else {
-            for (ExpiredResponse er : expiredList) {
-                if (er.getId_invoice().equals(id_invoice) && er.isWarning()) {
-                    fee = new FeeResponse(id_invoice,
-                            re.getIdUser(),
-                            er.isWarning(),
-                            er.getCurrent_date(),
-                            er.getCurrent_time(),
-                            er.getEnd_date(),
-                            er.getEnd_time(),
-                            er.getExpired(),
-                            ri.getTotal_Of_Money(),
-                            er.getFine(),
-                            er.isWarning(),
-                            ri.getTotal_Of_Money() + er.getFine(),
-                            0.0,
-                            ri.getTotal_Of_Money() + er.getFine());
-                    break;
-                }
-            }
-        }
+//        if (ri.isStatus() == true) {
+//            for (ExpiredResponse er : expiredList) {
+//                if (er.getId_invoice().equals(id_invoice) && er.isWarning()) {
+//                    fee = new FeeResponse(id_invoice,
+//                            re.getIdUser(),
+//                            er.isWarning(),
+//                            er.getCurrent_date(),
+//                            er.getCurrent_time(),
+//                            er.getEnd_date(),
+//                            er.getEnd_time(),
+//                            er.getExpired(),
+//                            ri.getTotal_Of_Money(),
+//                            er.getFine(),
+//                            er.isWarning(),
+//                            ri.getTotal_Of_Money() + er.getFine(),
+//                            ri.getTotal_Of_Money(),
+//                            er.getFine());
+//                    invoice_r_repository.updateStatus(false, id_invoice);
+//                    break;
+//                }
+//            }
+//        } else {
+//            for (ExpiredResponse er : expiredList) {
+//                if (er.getId_invoice().equals(id_invoice) && er.isWarning()) {
+//                    fee = new FeeResponse(id_invoice,
+//                            re.getIdUser(),
+//                            er.isWarning(),
+//                            er.getCurrent_date(),
+//                            er.getCurrent_time(),
+//                            er.getEnd_date(),
+//                            er.getEnd_time(),
+//                            er.getExpired(),
+//                            ri.getTotal_Of_Money(),
+//                            er.getFine(),
+//                            er.isWarning(),
+//                            ri.getTotal_Of_Money() + er.getFine(),
+//                            0.0,
+//                            ri.getTotal_Of_Money() + er.getFine());
+//                    break;
+//                }
+//            }
+//        }
         return fee;
     }
 
