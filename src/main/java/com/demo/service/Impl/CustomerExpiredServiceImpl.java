@@ -176,7 +176,7 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
         List<ExpiredResponse> expiredList = checkExpired(cu.getIdUser(), findAllCustomerInvoiceByCustomerID(cu.getIdUser()), time);
         FeeResponse fee = null;
         if (bk.is_checkout() == false) {
-            if (ci.getPayment_c().getType() == "Banking") {
+            if (ci.getPayment_c().getType().equals("Banking")) {
                 for (ExpiredResponse er : expiredList) {
                     if (er.getId_invoice().equals(id_invoice) && er.isWarning()) {
                         fee = new FeeResponse(id_invoice,
