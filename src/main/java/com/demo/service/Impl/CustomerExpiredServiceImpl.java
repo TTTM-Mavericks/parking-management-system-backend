@@ -151,8 +151,12 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
                                 if (expiredResponseList == null) {
                                     expiredResponseList = new ArrayList<>();
                                 }
-                                if (ex != null)
+                                if (ex != null) {
                                     expiredResponseList.add(ex);
+                                    Customer_Invoice invoice = invoice_c_repository.findCustomer_Invoice_By_Id_Payment(pc.getId_Payment());
+                                    invoice.setStatus(false);
+                                    invoice_c_repository.save(invoice);
+                                }
                             }
                         }
                     }
@@ -235,6 +239,7 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
                     bk.set_checkout(true);
                     pc.setBooking(bk);
                     ci.setPayment_c(pc);
+                    ci.setStatus(true);
                     bookingRepository.save(bk);
                     paymentCRepository.save(pc);
                     invoice_c_repository.save(ci);
