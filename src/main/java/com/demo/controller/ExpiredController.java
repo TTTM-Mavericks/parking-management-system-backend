@@ -27,18 +27,14 @@ public class ExpiredController {
                 residentExpiredService.findAllResidentInvoiceByResidentID(id)), HttpStatus.OK);
     }
 
-    @PostMapping("/getFeeCutomer/{id_invoice}")
-    public ResponseEntity<FeeResponse> getCustomerFee(@PathVariable("id_invoice") String id_invoice, @RequestBody String json){
-        json = json.replace("{", "");
-        json = json.replace("}", "");
-        json = json.replace("currentTime", "");
-        json = json.replace("\"", "");
-        json = json.replace("\n", "");
-        json = json.replace("\t", "");
-        json = json.trim();
-        json = json.substring(2);
-        System.out.println(json);
-        return new ResponseEntity<>(customerExpiredService.getCustomerFee(id_invoice, json), HttpStatus.CREATED);
+    @GetMapping("/getFeeCutomer/{id_invoice}")
+    public ResponseEntity<FeeResponse> getCustomerFee(@PathVariable("id_invoice") String id_invoice, @RequestParam String time){
+//        time = time.replace("a", "");
+        time = time.replace("\n", "");
+        time = time.replace("\t", "");
+        time = time.trim();
+        System.out.println(time);
+        return new ResponseEntity<>(customerExpiredService.getCustomerFee(id_invoice, time), HttpStatus.CREATED);
     }
 
     @GetMapping("/findAllInvoiceR/{id}")
@@ -49,19 +45,15 @@ public class ExpiredController {
     @Autowired
     CustomerExpiredService customerExpiredService;
 
-    @PostMapping("/checkExpiredC/{id}")
-    public ResponseEntity<List<ExpiredResponse>> getAllExpiredC(@PathVariable("id") String id, @RequestBody String json) {
-        json = json.replace("{", "");
-        json = json.replace("}", "");
-        json = json.replace("currentTime", "");
-        json = json.replace("\"", "");
-        json = json.replace("\n", "");
-        json = json.replace("\t", "");
-        json = json.trim();
-        json = json.substring(2);
-        System.out.println(json);
+    @GetMapping("/checkExpiredC/{id}")
+    public ResponseEntity<List<ExpiredResponse>> getAllExpiredC(@PathVariable("id") String id, @RequestParam String time) {
+//        time = time.replace("a", "");
+        time = time.replace("\n", "");
+        time = time.replace("\t", "");
+        time = time.trim();
+        System.out.println(time);
         return new ResponseEntity<>(customerExpiredService.checkExpired(id,
-                customerExpiredService.findAllCustomerInvoiceByCustomerID(id), json), HttpStatus.OK);
+                customerExpiredService.findAllCustomerInvoiceByCustomerID(id), time), HttpStatus.OK);
     }
 
     @GetMapping("/getFeeResident/{id_invoice}")
