@@ -82,7 +82,7 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
                         int current_month = calendar.get(Calendar.MONTH) + 1; // Note: Calendar.MONTH is zero-based, so add 1
 
                         int current_day = calendar.get(Calendar.DAY_OF_MONTH);
-                        int current_hours = Integer.parseInt(time.substring(0, time.indexOf(':')));
+                        int current_hours = Integer.parseInt(time.substring(0, time.indexOf('a')));
                         System.out.println(current_hours);
 
                         calendar.setTime(end_date);
@@ -232,10 +232,10 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
                     er.setWarning(false);
 //                    invoice_c_repository.updateStatusInvoice(true, pc.getId_Payment());
                     bookingRepository.updateStatusCheckout(true, bk.getId_Booking());
-                    break;
+                    return "OK";
                 }
             }
         }
-        return "OK";
+        return "faile";
     }
 }
