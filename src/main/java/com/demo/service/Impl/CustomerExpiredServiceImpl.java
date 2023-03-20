@@ -230,8 +230,17 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
             for (ExpiredResponse er : expiredList) {
                 if (er.getId_invoice().equals(id_invoice) && er.isWarning()) {
                     er.setWarning(false);
+
 //                    invoice_c_repository.updateStatusInvoice(true, pc.getId_Payment());
-                    bookingRepository.updateStatusCheckout(true, bk.getId_Booking());
+                    bk.set_checkout(true);
+                    pc.setBooking(bk);
+                    ci.setPayment_c(pc);
+                    bookingRepository.save(bk);
+                    paymentCRepository.save(pc);
+                    invoice_c_repository.save(ci);
+//                    bookingRepository.deleteById(bk.getId_Booking());
+//                    bk.set_checkout(true);
+//                    bookingRepository.save(bk);
                     return "OK";
                 }
             }
