@@ -66,7 +66,22 @@ public class UserServiceImpl implements UserService {
         dto.setFullname(user.getFullname());
         dto.setPhone(user.getPhone());
         User user1 = userRepository.save(dto);
-        customerRepository.save(new Customer(dto.getId(), false, userRepository.findById(user.getId()).get()));
+        customerRepository.save(new Customer(dto.getId(), true, userRepository.findById(user.getId()).get()));
+        return mapperedToUserResponse(user1);
+    }
+
+    @Override
+    public UserResponseDTO saveEmptyUser(UserDTO user){
+        User dto = new User();
+        dto.setId(user.getId());
+        dto.setEmail(user.getEmail());
+        dto.setGender(user.isGender());
+        dto.setDateofbirth(user.getDateofbirth());
+        dto.setPassword(user.getPassword());
+        dto.setFullname(user.getFullname());
+        dto.setPhone(user.getPhone());
+        User user1 = userRepository.save(dto);
+//        customerRepository.save(new Customer(dto.getId(), true, userRepository.findById(user.getId()).get()));
         return mapperedToUserResponse(user1);
     }
 
@@ -125,7 +140,7 @@ public class UserServiceImpl implements UserService {
         dto.setFullname(user.getFullname());
         dto.setPhone(user.getPhone());
         userRepository.save(dto);
-        customerRepository.save(new Customer(dto.getId(), false, dto));
+        customerRepository.save(new Customer(dto.getId(), true, dto));
         return mapperedToUserResponse(dto);
     }
 

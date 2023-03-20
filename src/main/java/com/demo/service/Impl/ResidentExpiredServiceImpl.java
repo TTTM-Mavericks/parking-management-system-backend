@@ -93,13 +93,11 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
             }
             System.out.println(CAR_MONEY_BY_DAY);
             if (end_month == current_month) {
-                if(current_day > end_day) {
-                    expired = (current_day - end_day);
-                    fine = expired * type_money;
-                    warning = true;
-                }
+                expired = (current_day - end_day);
+                fine = expired * type_money;
+                warning = true;
             } else if (end_month < current_month) {
-                expired = current_day - end_day + (current_month - end_month) * 31;
+                expired = Math.abs(current_day - end_day) + (current_month - end_month) * 31;
                 fine = expired * type_money;
                 warning = true;
             }
@@ -130,52 +128,49 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
         Payment_R pr = paymentRRepository.findPaymentByInvoiceId(id_invoice);
         Resident_Invoice ri = invoice_r_repository.findResident_InvoiceByResidentPayment(pr.getId_Payment());
         Resident re = pr.getResident();
-        System.out.println(re.getIdUser());
-//        List<InvoiceResidentResponse> invoiceList = findAllResidentInvoiceByResidentID(re.getIdUser());
-//        List<ExpiredResponse> expiredList = checkExpired(re.getIdUser(), invoiceList);
+        List<ExpiredResponse> expiredList = checkExpired(re.getIdUser(), findAllResidentInvoiceByResidentID(re.getIdUser()));
         FeeResponse fee = null;
-//        if (ri.isStatus() == true) {
-//            for (ExpiredResponse er : expiredList) {
-//                if (er.getId_invoice().equals(id_invoice) && er.isWarning()) {
-//                    fee = new FeeResponse(id_invoice,
-//                            re.getIdUser(),
-//                            er.isWarning(),
-//                            er.getCurrent_date(),
-//                            er.getCurrent_time(),
-//                            er.getEnd_date(),
-//                            er.getEnd_time(),
-//                            er.getExpired(),
-//                            ri.getTotal_Of_Money(),
-//                            er.getFine(),
-//                            er.isWarning(),
-//                            ri.getTotal_Of_Money() + er.getFine(),
-//                            ri.getTotal_Of_Money(),
-//                            er.getFine());
-//                    invoice_r_repository.updateStatus(false, id_invoice);
-//                    break;
-//                }
-//            }
-//        } else {
-//            for (ExpiredResponse er : expiredList) {
-//                if (er.getId_invoice().equals(id_invoice) && er.isWarning()) {
-//                    fee = new FeeResponse(id_invoice,
-//                            re.getIdUser(),
-//                            er.isWarning(),
-//                            er.getCurrent_date(),
-//                            er.getCurrent_time(),
-//                            er.getEnd_date(),
-//                            er.getEnd_time(),
-//                            er.getExpired(),
-//                            ri.getTotal_Of_Money(),
-//                            er.getFine(),
-//                            er.isWarning(),
-//                            ri.getTotal_Of_Money() + er.getFine(),
-//                            0.0,
-//                            ri.getTotal_Of_Money() + er.getFine());
-//                    break;
-//                }
-//            }
-//        }
+        if (ri.isStatus() == true) {
+            for (ExpiredResponse er : expiredList) {
+                if (er.getId_invoice().equals(id_invoice) && er.isWarning()) {
+                    fee = new FeeResponse(id_invoice,
+                            re.getIdUser(),
+                            er.isWarning(),
+                            er.getCurrent_date(),
+                            er.getCurrent_time(),
+                            er.getEnd_date(),
+                            er.getEnd_time(),
+                            er.getExpired(),
+                            ri.getTotal_Of_Money(),
+                            er.getFine(),
+                            er.isWarning(),
+                            ri.getTotal_Of_Money() + er.getFine(),
+                            ri.getTotal_Of_Money(),
+                            er.getFine());
+                    break;
+                }
+            }
+        } else {
+            for (ExpiredResponse er : expiredList) {
+                if (er.getId_invoice().equals(id_invoice) && er.isWarning()) {
+                    fee = new FeeResponse(id_invoice,
+                            re.getIdUser(),
+                            er.isWarning(),
+                            er.getCurrent_date(),
+                            er.getCurrent_time(),
+                            er.getEnd_date(),
+                            er.getEnd_time(),
+                            er.getExpired(),
+                            ri.getTotal_Of_Money(),
+                            er.getFine(),
+                            er.isWarning(),
+                            ri.getTotal_Of_Money() + er.getFine(),
+                            0.0,
+                            ri.getTotal_Of_Money() + er.getFine());
+                    break;
+                }
+            }
+        }
         return fee;
     }
 
@@ -186,13 +181,11 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
         Resident re = pr.getResident();
         List<ExpiredResponse> expiredList = checkExpired(re.getIdUser(), findAllResidentInvoiceByResidentID(re.getIdUser()));
         FeeResponse fee = null;
-        if (ri.isStatus() == false) {
+        if (ri.isStatus() == true) {
             for (ExpiredResponse er : expiredList) {
                 if (er.getId_invoice().equals(id_invoice) && er.isWarning()) {
 //                    ri.setStatus(true);
 //                    er.setWarning(false);
-                    invoice_r_repository.updateStatus(false, id_invoice);
-                    invoice_r_repository.updateTime(er.getCurrent_date(), id_invoice);
                     break;
                 }
             }
