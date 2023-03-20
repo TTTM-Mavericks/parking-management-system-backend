@@ -63,7 +63,7 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
     }
 
     @Override
-    public List<ExpiredResponse> checkExpired(String id, List<InvoiceCustomerResponse> customerInvoices) {
+    public List<ExpiredResponse> checkExpired(String id, List<InvoiceCustomerResponse> customerInvoices, String time) {
         List<ExpiredResponse> expiredResponseList = null;
         for (InvoiceCustomerResponse ci : customerInvoices) {
             if (ci != null) {
@@ -80,8 +80,10 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
                         Calendar calendar = Calendar.getInstance(vietnamTimeZone);
                         calendar.setTime(current_date);
                         int current_month = calendar.get(Calendar.MONTH) + 1; // Note: Calendar.MONTH is zero-based, so add 1
+
                         int current_day = calendar.get(Calendar.DAY_OF_MONTH);
-                        int current_hours = calendar.get(Calendar.HOUR_OF_DAY);
+                        int current_hours = Integer.parseInt(time.substring(0, time.indexOf(':')));
+                        System.out.println(current_hours);
 
                         calendar.setTime(end_date);
                         int end_month = calendar.get(Calendar.MONTH) + 1;
@@ -136,7 +138,7 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
 //                warning = true;
 //            }
                             if (warning == true) {
-                                String current_time = current_date.getHours() + ":" + current_date.getMinutes();
+                                String current_time = time;
                                 ExpiredResponse ex = new ExpiredResponse(id
                                         , id_invoice
                                         , current_date
@@ -162,12 +164,12 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
     }
 
     @Override
-    public FeeResponse getCustomerFee(String id_invoice) {
+    public FeeResponse getCustomerFee(String id_invoice, String time) {
         Payment_C pc = paymentCRepository.findPaymentByInvoiceId(id_invoice);
         Customer_Invoice ci = invoice_c_repository.findCustomer_Invoice_By_Id_Payment(pc.getId_Payment());
         Booking bk = pc.getBooking();
         Customer cu = bk.getCustomer();
-        List<ExpiredResponse> expiredList = checkExpired(cu.getIdUser(), findAllCustomerInvoiceByCustomerID(cu.getIdUser()));
+        List<ExpiredResponse> expiredList = checkExpired(cu.getIdUser(), findAllCustomerInvoiceByCustomerID(cu.getIdUser()), time);
         FeeResponse fee = null;
         if (bk.is_checkout() == false) {
             if (ci.isStatus() == true) {
@@ -213,15 +215,16 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
             }
         }
         return fee;
+//        return null;
     }
 
     @Override
-    public String payFeeC(String id_invoice) {
+    public String payFeeC(String id_invoice, String time) {
         Payment_C pc = paymentCRepository.findPaymentByInvoiceId(id_invoice);
         Customer_Invoice ci = invoice_c_repository.findCustomer_Invoice_By_Id_Payment(pc.getId_Payment());
         Booking bk = pc.getBooking();
         Customer cu = bk.getCustomer();
-        List<ExpiredResponse> expiredList = checkExpired(cu.getIdUser(), findAllCustomerInvoiceByCustomerID(cu.getIdUser()));
+        List<ExpiredResponse> expiredList = checkExpired(cu.getIdUser(), findAllCustomerInvoiceByCustomerID(cu.getIdUser()), time);
         FeeResponse fee = null;
         if (bk.is_checkout() == false) {
             for (ExpiredResponse er : expiredList) {

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface CustomerExpiredService {
     public List<InvoiceCustomerResponse> findAllCustomerInvoiceByCustomerID(String id);
-    public List<ExpiredResponse> checkExpired(String id, List<InvoiceCustomerResponse> customerInvoices);
-    public FeeResponse getCustomerFee(String id_invoice);
-    public String payFeeC(String id_invoice);
+    public List<ExpiredResponse> checkExpired(String id, List<InvoiceCustomerResponse> customerInvoices, String time);
+    public FeeResponse getCustomerFee(String id_invoice, String time);
+    public String payFeeC(String id_invoice, String time);
 }

@@ -11,10 +11,7 @@ import com.demo.utils.response.InvoiceResidentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,9 +27,18 @@ public class ExpiredController {
                 residentExpiredService.findAllResidentInvoiceByResidentID(id)), HttpStatus.OK);
     }
 
-    @GetMapping("/getFeeCutomer/{id_invoice}")
-    public ResponseEntity<FeeResponse> getCustomerFee(@PathVariable("id_invoice") String id_invoice){
-        return new ResponseEntity<>(customerExpiredService.getCustomerFee(id_invoice), HttpStatus.CREATED);
+    @PostMapping("/getFeeCutomer/{id_invoice}")
+    public ResponseEntity<FeeResponse> getCustomerFee(@PathVariable("id_invoice") String id_invoice, @RequestBody String json){
+        json = json.replace("{", "");
+        json = json.replace("}", "");
+        json = json.replace("currentTime", "");
+        json = json.replace("\"", "");
+        json = json.replace("\n", "");
+        json = json.replace("\t", "");
+        json = json.trim();
+        json = json.substring(2);
+        System.out.println(json);
+        return new ResponseEntity<>(customerExpiredService.getCustomerFee(id_invoice, json), HttpStatus.CREATED);
     }
 
     @GetMapping("/findAllInvoiceR/{id}")
@@ -43,10 +49,19 @@ public class ExpiredController {
     @Autowired
     CustomerExpiredService customerExpiredService;
 
-    @GetMapping("/checkExpiredC/{id}")
-    public ResponseEntity<List<ExpiredResponse>> getAllExpiredC(@PathVariable("id") String id) {
+    @PostMapping("/checkExpiredC/{id}")
+    public ResponseEntity<List<ExpiredResponse>> getAllExpiredC(@PathVariable("id") String id, @RequestBody String json) {
+        json = json.replace("{", "");
+        json = json.replace("}", "");
+        json = json.replace("currentTime", "");
+        json = json.replace("\"", "");
+        json = json.replace("\n", "");
+        json = json.replace("\t", "");
+        json = json.trim();
+        json = json.substring(2);
+        System.out.println(json);
         return new ResponseEntity<>(customerExpiredService.checkExpired(id,
-                customerExpiredService.findAllCustomerInvoiceByCustomerID(id)), HttpStatus.OK);
+                customerExpiredService.findAllCustomerInvoiceByCustomerID(id), json), HttpStatus.OK);
     }
 
     @GetMapping("/getFeeResident/{id_invoice}")
@@ -60,8 +75,17 @@ public class ExpiredController {
     }
 
     @GetMapping("/payC/{id_invoice}")
-    public ResponseEntity<String> payFeeC(@PathVariable("id_invoice") String id_invoice){
-        return new ResponseEntity<>(customerExpiredService.payFeeC(id_invoice), HttpStatus.OK);
+    public ResponseEntity<String> payFeeC(@PathVariable("id_invoice") String id_invoice, String json){
+        json = json.replace("{", "");
+        json = json.replace("}", "");
+        json = json.replace("currentTime", "");
+        json = json.replace("\"", "");
+        json = json.replace("\n", "");
+        json = json.replace("\t", "");
+        json = json.trim();
+        json = json.substring(2);
+        System.out.println(json);
+        return new ResponseEntity<>(customerExpiredService.payFeeC(id_invoice, json), HttpStatus.OK);
     }
     @GetMapping("/payR/{id_invoice}")
     public ResponseEntity<String> payFeeR(@PathVariable("id_invoice") String id_invoice){
