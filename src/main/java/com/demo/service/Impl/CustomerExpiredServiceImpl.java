@@ -138,7 +138,7 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
 //                warning = true;
 //            }
                             if (warning == true) {
-                                String current_time = time;
+                                String current_time = Integer.parseInt(time.substring(0, time.indexOf('a'))) + ":" + current_date.getMinutes();
                                 ExpiredResponse ex = new ExpiredResponse(id
                                         , id_invoice
                                         , current_date

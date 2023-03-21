@@ -47,14 +47,16 @@ public class PaymentResidentServiceImpl implements PaymentResidentService {
 
         double Total_Of_Money = 0;
 
+        // ko tim slot theo resident => tim theo cai "booking"
+
         Resident_Slot residentSlot = resident_slot_repository.findResidentSlotByIdResident(dto.getIdUser());
-        if(residentSlot.isStatus_Slots() == true)
-        {
-            message = "The slot is not empty you can not book that slot";
-            return null;
-        }
-        residentSlot.setStatus_Slots(true);
-        resident_slot_repository.save(residentSlot);
+//        if(residentSlot.isStatus_Slots() == true)
+//        {
+//            message = "The slot is not empty you can not book that slot";
+//            return null;
+//        }
+//        residentSlot.setStatus_Slots(true);
+//        resident_slot_repository.save(residentSlot);
         String type_of_vehicle = residentSlot.getType_Of_Vehicle();
         switch(type_of_vehicle)
         {

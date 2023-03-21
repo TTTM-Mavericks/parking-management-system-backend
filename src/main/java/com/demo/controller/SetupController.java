@@ -492,7 +492,7 @@ public class SetupController {
                     "    \"type_Of_Vehicle\": \""+"Car"+"\"," +
                     "    \"status_Slots\":" + false + "," +
                     "    \"id_Area\": \"1\"," +
-                    "    \"id_C_Slot\": \"R" + i + "\"" +
+                    "    \"id_R_Slot\": \"R" + i + "\"" +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
             ResidentSlotDTO dto = mapper.readValue(json, ResidentSlotDTO.class);
@@ -504,7 +504,7 @@ public class SetupController {
                     "    \"type_Of_Vehicle\": \""+"Car"+"\"," +
                     "    \"status_Slots\":" + false + "," +
                     "    \"id_Area\": \"1\"," +
-                    "    \"id_C_Slot\": \"R" + i + "\"" +
+                    "    \"id_R_Slot\": \"R" + i + "\"" +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
             ResidentSlotDTO dto = mapper.readValue(json, ResidentSlotDTO.class);
@@ -516,7 +516,7 @@ public class SetupController {
                     "    \"type_Of_Vehicle\": \""+"Car"+"\"," +
                     "    \"status_Slots\":" + false + "," +
                     "    \"id_Area\": \"1\"," +
-                    "    \"id_C_Slot\": \"R" + i + "\"" +
+                    "    \"id_R_Slot\": \"R" + i + "\"" +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
             ResidentSlotDTO dto = mapper.readValue(json, ResidentSlotDTO.class);
@@ -528,7 +528,7 @@ public class SetupController {
                     "    \"type_Of_Vehicle\": \""+"Bike"+"\"," +
                     "    \"status_Slots\":" +false+ "," +
                     "    \"id_Area\": \"2\"," +
-                    "    \"id_C_Slot\": \"R" + i + "\"" +
+                    "    \"id_R_Slot\": \"R" + i + "\"" +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
             ResidentSlotDTO dto = mapper.readValue(json, ResidentSlotDTO.class);
@@ -540,7 +540,7 @@ public class SetupController {
                     "    \"type_Of_Vehicle\": \""+"Bike"+"\"," +
                     "    \"status_Slots\":" +false+ "," +
                     "    \"id_Area\": \"2\"," +
-                    "    \"id_C_Slot\": \"R" + i + "\"" +
+                    "    \"id_R_Slot\": \"R" + i + "\"" +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
             ResidentSlotDTO dto = mapper.readValue(json, ResidentSlotDTO.class);
@@ -552,7 +552,7 @@ public class SetupController {
                     "    \"type_Of_Vehicle\": \""+"Bike"+"\"," +
                     "    \"status_Slots\":" +false+ "," +
                     "    \"id_Area\": \"2\"," +
-                    "    \"id_C_Slot\": \"R" + i + "\"" +
+                    "    \"id_R_Slot\": \"R" + i + "\"" +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
             ResidentSlotDTO dto = mapper.readValue(json, ResidentSlotDTO.class);
@@ -564,7 +564,7 @@ public class SetupController {
                     "    \"type_Of_Vehicle\": \""+"Motor"+"\"," +
                     "    \"status_Slots\":" + false + "," +
                     "    \"id_Area\": \"3\"," +
-                    "    \"id_C_Slot\": \"R" + i + "\"" +
+                    "    \"id_R_Slot\": \"R" + i + "\"" +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
             ResidentSlotDTO dto = mapper.readValue(json, ResidentSlotDTO.class);
@@ -576,7 +576,7 @@ public class SetupController {
                     "    \"type_Of_Vehicle\": \""+"Motor"+"\"," +
                     "    \"status_Slots\":" + false + "," +
                     "    \"id_Area\": \"3\"," +
-                    "    \"id_C_Slot\": \"R" + i + "\"" +
+                    "    \"id_R_Slot\": \"R" + i + "\"" +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
             ResidentSlotDTO dto = mapper.readValue(json, ResidentSlotDTO.class);
@@ -588,7 +588,7 @@ public class SetupController {
                     "    \"type_Of_Vehicle\": \""+"Motor"+"\"," +
                     "    \"status_Slots\":" + false + "," +
                     "    \"id_Area\": \"3\"," +
-                    "    \"id_C_Slot\": \"R" + i + "\"" +
+                    "    \"id_R_Slot\": \"R" + i + "\"" +
                     "}";
             ObjectMapper mapper = new ObjectMapper();
             ResidentSlotDTO dto = mapper.readValue(json, ResidentSlotDTO.class);

@@ -56,6 +56,9 @@ public class Resident_Slot_Service_Impl implements Resident_Slot_Service {
 
     @Override
     public ResidentSlotDTO saveEmptySlot(ResidentSlotDTO dto) {
+        List<Resident_Slot> list = resident_slot_repository.findAll();
+        Long index = Long.parseLong(String.valueOf(list.size())) + 1;
+//        Resident_Slot rs = new Resident_Slot(index, dto.getId_R_Slot(), dto.getType_Of_Vehicle(), dto.isStatus_Slots(), areaRepository.findById(dto.getId_Area()).get());
         Resident_Slot rs = new Resident_Slot(dto.getId_R_Slot(), dto.getType_Of_Vehicle(), dto.isStatus_Slots(), areaRepository.findById(dto.getId_Area()).get());
         resident_slot_repository.save(rs);
         return dto;

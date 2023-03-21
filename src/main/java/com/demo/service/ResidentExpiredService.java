@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ResidentExpiredService {
     public List<InvoiceResidentResponse> findAllResidentInvoiceByResidentID(String id);
-    public List<ExpiredResponse> checkExpired(String id, List<InvoiceResidentResponse> resident_invoiceList);
-    public FeeResponse getResidentFee(String id_invoice);
-    public String payFeeR(String id_invoice);
+    public List<ExpiredResponse> checkExpired(String id, List<InvoiceResidentResponse> resident_invoiceList, String time);
+    public FeeResponse getResidentFee(String id_invoice, String time);
+    public String payFeeR(String id_invoice, String time);
 }

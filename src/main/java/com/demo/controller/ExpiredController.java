@@ -22,9 +22,13 @@ public class ExpiredController {
     ResidentExpiredService residentExpiredService;
 
     @GetMapping("/checkExpiredR/{id}")
-    public ResponseEntity<List<ExpiredResponse>> getAllExpired(@PathVariable("id") String id) {
+    public ResponseEntity<List<ExpiredResponse>> getAllExpired(@PathVariable("id") String id, @RequestParam String time) {
+        time = time.replace("\n", "");
+        time = time.replace("\t", "");
+        time = time.trim();
+        System.out.println(time);
         return new ResponseEntity<>(residentExpiredService.checkExpired(id,
-                residentExpiredService.findAllResidentInvoiceByResidentID(id)), HttpStatus.OK);
+                residentExpiredService.findAllResidentInvoiceByResidentID(id), time), HttpStatus.OK);
     }
 
     @GetMapping("/getFeeCutomer/{id_invoice}")
@@ -57,8 +61,12 @@ public class ExpiredController {
     }
 
     @GetMapping("/getFeeResident/{id_invoice}")
-    public ResponseEntity<FeeResponse> getResidentFee(@PathVariable("id_invoice") String id_invoice){
-        return new ResponseEntity<>(residentExpiredService.getResidentFee(id_invoice), HttpStatus.CREATED);
+    public ResponseEntity<FeeResponse> getResidentFee(@PathVariable("id_invoice") String id_invoice, @RequestParam String time){
+        time = time.replace("\n", "");
+        time = time.replace("\t", "");
+        time = time.trim();
+        System.out.println(time);
+        return new ResponseEntity<>(residentExpiredService.getResidentFee(id_invoice, time), HttpStatus.CREATED);
     }
 
     @GetMapping("/findAllInvoiceC/{id}")
@@ -75,7 +83,11 @@ public class ExpiredController {
         return new ResponseEntity<>(customerExpiredService.payFeeC(id_invoice, time), HttpStatus.OK);
     }
     @GetMapping("/payR/{id_invoice}")
-    public ResponseEntity<String> payFeeR(@PathVariable("id_invoice") String id_invoice){
-        return new ResponseEntity<>(residentExpiredService.payFeeR(id_invoice), HttpStatus.OK);
+    public ResponseEntity<String> payFeeR(@PathVariable("id_invoice") String id_invoice, @RequestParam String time){
+        time = time.replace("\n", "");
+        time = time.replace("\t", "");
+        time = time.trim();
+        System.out.println(time);
+        return new ResponseEntity<>(residentExpiredService.payFeeR(id_invoice, time), HttpStatus.OK);
     }
 }
