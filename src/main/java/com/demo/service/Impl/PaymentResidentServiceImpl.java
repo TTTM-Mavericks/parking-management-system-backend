@@ -80,6 +80,8 @@ public class PaymentResidentServiceImpl implements PaymentResidentService {
         }
         List<Resident_Invoice> list1 = invoice_r_repository.findAll();
         Resident_Invoice resident_invoice = new Resident_Invoice("RI" + (list1.size() + 1), status_Invoice, Total_Of_Money, dto.getDateOfPayment(), payment_r);
+        resident.setResidentSlot(residentSlot);
+        residentRepository.save(resident);
         invoice_r_repository.save(resident_invoice);
 
         paymentResidentResponseDTO = new PaymentResidentResponseDTO(dto.getIdUser(), "RI" + (list1.size() + 1), "PR" + (list.size() + 1),

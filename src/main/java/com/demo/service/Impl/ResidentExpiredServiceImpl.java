@@ -4,6 +4,7 @@ import com.demo.entity.*;
 import com.demo.repository.Invoice_R_Repository;
 import com.demo.repository.Payment_R_Repository;
 import com.demo.repository.ResidentRepository;
+import com.demo.repository.Resident_Slot_Repository;
 import com.demo.service.ResidentExpiredService;
 import com.demo.utils.response.ExpiredResponse;
 import com.demo.utils.response.FeeResponse;
@@ -33,8 +34,14 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
         List<InvoiceResidentResponse> RIList = null;
         if (re != null) {
             List<Payment_R> pr = paymentRRepository.findAllPaymentByResident(id);
+            if(pr == null){
+                return null;
+            }
             for (Payment_R payment_r : pr) {
                 Resident_Invoice ri = invoice_r_repository.findResident_InvoiceByResidentPayment(payment_r.getId_Payment());
+                if(ri == null){
+                    continue;
+                }
                 InvoiceResidentResponse irr = new InvoiceResidentResponse(
                         ri.getId_R_Invoice(),
                         payment_r.getId_Payment(),
@@ -53,15 +60,27 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
         return RIList;
     }
 
+    @Autowired
+    Resident_Slot_Repository resident_slot_repository;
+
     @Override
     public List<ExpiredResponse> checkExpired(String id, List<InvoiceResidentResponse> resident_invoiceList, String time) {
         List<ExpiredResponse> expiredResidentResponseList = null;
+        if(resident_invoiceList == null){
+            return null;
+        }
         for (InvoiceResidentResponse ri : resident_invoiceList) {
             Date end_date = ri.getTime();
             Date current_date = new Date();
             Payment_R pr = paymentRRepository.findPaymentByInvoiceId(ri.getId_R_Invoice());
+            if(pr == null){
+                return null;
+            }
             String id_invoice = pr.getResident_invoice().getId_R_Invoice();
-            Resident_Slot rs = pr.getResident().getResidentSlot();
+            Resident_Slot rs = resident_slot_repository.findResidentSlotByIdResident(pr.getResident().getIdUser());
+            if(rs == null){
+                return null;
+            }
 
             TimeZone vietnamTimeZone = TimeZone.getTimeZone("Asia/Ho_Chi_Minh");
             Calendar calendar = Calendar.getInstance(vietnamTimeZone);
@@ -128,9 +147,21 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
     @Override
     public FeeResponse getResidentFee(String id_invoice, String time) {
         Payment_R pr = paymentRRepository.findPaymentByInvoiceId(id_invoice);
+        if(pr == null){
+            return null;
+        }
         Resident_Invoice ri = invoice_r_repository.findResident_InvoiceByResidentPayment(pr.getId_Payment());
+        if(ri == null){
+            return null;
+        }
         Resident re = pr.getResident();
+        if(re == null){
+            return  null;
+        }
         List<ExpiredResponse> expiredList = checkExpired(re.getIdUser(), findAllResidentInvoiceByResidentID(re.getIdUser()), time);
+        if(expiredList == null){
+            return null;
+        }
         FeeResponse fee = null;
 //        if (ri.getPayment_r().getType().equals("Banking")) {
 //            for (ExpiredResponse er : expiredList) {
@@ -182,9 +213,21 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
     @Override
     public String payFeeR(String id_invoice, String time) {
         Payment_R pr = paymentRRepository.findPaymentByInvoiceId(id_invoice);
+        if(pr == null){
+            return null;
+        }
         Resident_Invoice ri = invoice_r_repository.findResident_InvoiceByResidentPayment(pr.getId_Payment());
+        if(ri == null){
+            return null;
+        }
         Resident re = pr.getResident();
+        if(re == null){
+            return null;
+        }
         List<ExpiredResponse> expiredList = checkExpired(re.getIdUser(), findAllResidentInvoiceByResidentID(re.getIdUser()), time);
+        if(expiredList == null){
+            return null;
+        }
         FeeResponse fee = null;
         if (ri.isStatus() == true) {
             for (ExpiredResponse er : expiredList) {
@@ -201,6 +244,9 @@ public class ResidentExpiredServiceImpl implements ResidentExpiredService {
 //                    er.setWarning(false);
                     Resident_Invoice invoice = invoice_r_repository.findResident_InvoiceByResidentPayment(pr.getId_Payment());
                     invoice.setStatus(true);
+                    Date end_date = ri.getTime();
+                    end_date.setMonth(ri.getTime().getMonth() + 1);
+                    ri.setTime(end_date);
                     invoice_r_repository.save(invoice);
                     break;
                 }

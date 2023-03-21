@@ -38,8 +38,14 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
             if ((bk != null)) {
                 for (Booking b : bk) {
                     Payment_C pc = paymentCRepository.findPayment_C_By_Id_Booking(b.getId_Booking());
+                    if (pc == null) {
+                        continue;
+                    }
                     if (pc != null) {
                         Customer_Invoice ci = invoice_c_repository.findCustomer_Invoice_By_Id_Payment(pc.getId_Payment());
+                        if (ci == null) {
+                            continue;
+                        }
                         InvoiceCustomerResponse icr = new InvoiceCustomerResponse(
                                 ci.getId_C_Invoice(),
                                 pc.getId_Payment(),
@@ -101,7 +107,7 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
 
                         String type_vehicle = bk.getCustomer_slot().getType_Of_Vehicle();
 
-                        if (type_vehicle.equals("Motor")) {
+                        if (type_vehicle.equalsIgnoreCase("Motor")) {
                             type_money = MOTO_MONEY_BY_HOUR * 1.5;
                             type_moneyd = MOTO_MONEY_BY_DAY * 1.5;
                         } else if (type_vehicle.equals("Car")) {
@@ -170,10 +176,25 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
     @Override
     public FeeResponse getCustomerFee(String id_invoice, String time) {
         Payment_C pc = paymentCRepository.findPaymentByInvoiceId(id_invoice);
+        if (pc == null) {
+            return null;
+        }
         Customer_Invoice ci = invoice_c_repository.findCustomer_Invoice_By_Id_Payment(pc.getId_Payment());
+        if (ci == null) {
+            return null;
+        }
         Booking bk = pc.getBooking();
+        if (bk == null) {
+            return null;
+        }
         Customer cu = bk.getCustomer();
+        if (cu == null) {
+            return null;
+        }
         List<ExpiredResponse> expiredList = checkExpired(cu.getIdUser(), findAllCustomerInvoiceByCustomerID(cu.getIdUser()), time);
+        if (expiredList == null) {
+            return null;
+        }
         FeeResponse fee = null;
         if (bk.is_checkout() == false) {
             if (ci.getPayment_c().getType().equals("Banking")) {
@@ -225,10 +246,25 @@ public class CustomerExpiredServiceImpl implements CustomerExpiredService {
     @Override
     public String payFeeC(String id_invoice, String time) {
         Payment_C pc = paymentCRepository.findPaymentByInvoiceId(id_invoice);
+        if (pc == null) {
+            return "Can not find payment";
+        }
         Customer_Invoice ci = invoice_c_repository.findCustomer_Invoice_By_Id_Payment(pc.getId_Payment());
+        if (ci == null) {
+            return "Can not find invoice";
+        }
         Booking bk = pc.getBooking();
+        if (bk == null) {
+            return "Can not find booking";
+        }
         Customer cu = bk.getCustomer();
+        if (cu == null) {
+            return "Invalid Customer";
+        }
         List<ExpiredResponse> expiredList = checkExpired(cu.getIdUser(), findAllCustomerInvoiceByCustomerID(cu.getIdUser()), time);
+        if(expiredList == null){
+            return "No expired existed";
+        }
         FeeResponse fee = null;
         if (bk.is_checkout() == false) {
             for (ExpiredResponse er : expiredList) {
