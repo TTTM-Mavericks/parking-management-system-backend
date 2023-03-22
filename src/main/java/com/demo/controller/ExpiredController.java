@@ -8,6 +8,7 @@ import com.demo.utils.response.ExpiredResponse;
 import com.demo.utils.response.FeeResponse;
 import com.demo.utils.response.InvoiceCustomerResponse;
 import com.demo.utils.response.InvoiceResidentResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +33,16 @@ public class ExpiredController {
     }
 
     @GetMapping("/getFeeCutomer/{id_invoice}")
-    public ResponseEntity<FeeResponse> getCustomerFee(@PathVariable("id_invoice") String id_invoice, @RequestParam String time){
+    public ResponseEntity<FeeResponse> getCustomerFee(@PathVariable("id_invoice") String id_invoice,
+                                                      @RequestParam String time,
+                                                      HttpSession session
+                                                      ){
 //        time = time.replace("a", "");
         time = time.replace("\n", "");
         time = time.replace("\t", "");
         time = time.trim();
         System.out.println(time);
+        session.setAttribute("FeeCustomerExpired", customerExpiredService.getCustomerFee(id_invoice, time));
         return new ResponseEntity<>(customerExpiredService.getCustomerFee(id_invoice, time), HttpStatus.CREATED);
     }
 
@@ -61,11 +66,14 @@ public class ExpiredController {
     }
 
     @GetMapping("/getFeeResident/{id_invoice}")
-    public ResponseEntity<FeeResponse> getResidentFee(@PathVariable("id_invoice") String id_invoice, @RequestParam String time){
+    public ResponseEntity<FeeResponse> getResidentFee(@PathVariable("id_invoice") String id_invoice,
+                                                      @RequestParam String time,
+                                                      HttpSession session){
         time = time.replace("\n", "");
         time = time.replace("\t", "");
         time = time.trim();
         System.out.println(time);
+        session.setAttribute("FeeResidentExpired", residentExpiredService.getResidentFee(id_invoice, time));
         return new ResponseEntity<>(residentExpiredService.getResidentFee(id_invoice, time), HttpStatus.CREATED);
     }
 
