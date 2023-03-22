@@ -25,6 +25,11 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     Booking findBookingByIdPayment(String id_Payment);
 
     @Query
+            (value = "select b.* from booking b join payment_c pc on b.id_booking = pc.id_booking " +
+                    "where pc.id_payment = ?1", nativeQuery = true)
+    Booking findAllBookingByIdPayment(String id_Payment);
+
+    @Query
             (value = "select b.* from booking b  " +
                     "where b.id_customer = ?1 and b.is_deleted = 0 and b.is_enabled = 1 and b.is_checkout = 0", nativeQuery = true)
     List<Booking> findBookingByCustomer(String id_Customer);
