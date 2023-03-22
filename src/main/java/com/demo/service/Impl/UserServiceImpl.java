@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
         dto.setFullname(user.getFullname());
         dto.setPhone(user.getPhone());
         User user1 = userRepository.save(dto);
-        customerRepository.save(new Customer(dto.getId(), true, userRepository.findById(user.getId()).get()));
+        //customerRepository.save(new Customer(dto.getId(), true, userRepository.findById(user.getId()).get()));
         return mapperedToUserResponse(user1);
     }
 

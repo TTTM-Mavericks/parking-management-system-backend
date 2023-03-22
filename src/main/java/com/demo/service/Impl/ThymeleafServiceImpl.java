@@ -2,6 +2,7 @@ package com.demo.service.Impl;
 
 
 import com.demo.service.ThymeleafService;
+import com.demo.utils.response.FeeResponse;
 import com.demo.utils.response.PaymentCustomerReponseDTO;
 import com.demo.utils.response.PaymentResidentResponseDTO;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -36,6 +37,9 @@ public class ThymeleafServiceImpl implements ThymeleafService {
 
     private static final String TEMPLATE_INVOICE_RESIDENT = "mail_InvoiceResident";
 
+    private static final String TEMPLATE_FEE_CUSTOMER_EXPIRED = "mail_feeCustomerExpired";
+
+    private static final String TEMPLATE_FEE_RESIDENT_EXPIRED = "mail_feeResidentExpired";
 
     private static TemplateEngine templateEngine;
 
@@ -123,6 +127,51 @@ public class ThymeleafServiceImpl implements ThymeleafService {
 
 
         return templateEngine.process(TEMPLATE_INVOICE_RESIDENT, context);
+    }
+
+    @Override
+    public String createContentFeeCustomerExpired(FeeResponse dto) {
+        final Context context = new Context();
+        context.setVariable("Id_User", dto.getId_user());
+        context.setVariable("id_invoice", dto.getId_invoice());
+        context.setVariable("status_fee", dto.isStatus_fee());
+        context.setVariable("current_date", dto.getCurrent_date());
+        context.setVariable("current_time", dto.getCurrent_time());
+        context.setVariable("end_date", dto.getEnd_date());
+        context.setVariable("end_time", dto.getEnd_time());
+
+        context.setVariable("expired", dto.getExpired());
+        context.setVariable("based_fee", dto.getBased_fee());
+        context.setVariable("fined_fee", dto.getFined_fee());
+        context.setVariable("warning", dto.isWarning());
+        context.setVariable("sum", dto.getSum());
+        context.setVariable("has_paid", dto.getHas_paid());
+        context.setVariable("total_fee", dto.getTotal_fee());
+
+        return templateEngine.process(TEMPLATE_FEE_CUSTOMER_EXPIRED, context);
+    }
+
+    @Override
+    public String createContentFeeResidentExpired(FeeResponse dto) {
+        final Context context = new Context();
+        context.setVariable("Id_User", dto.getId_user());
+        context.setVariable("id_invoice", dto.getId_invoice());
+        context.setVariable("status_fee", dto.isStatus_fee());
+        context.setVariable("current_date", dto.getCurrent_date());
+        context.setVariable("current_time", dto.getCurrent_time());
+        context.setVariable("end_date", dto.getEnd_date());
+        context.setVariable("end_time", dto.getEnd_time());
+        context.setVariable("expired", dto.getExpired());
+        context.setVariable("based_fee", dto.getBased_fee());
+        context.setVariable("fined_fee", dto.getFined_fee());
+        context.setVariable("warning", dto.isWarning());
+        context.setVariable("sum", dto.getSum());
+        context.setVariable("has_paid", dto.getHas_paid());
+        context.setVariable("total_fee", dto.getTotal_fee());
+
+
+
+        return templateEngine.process(TEMPLATE_FEE_RESIDENT_EXPIRED, context);
     }
 }
 

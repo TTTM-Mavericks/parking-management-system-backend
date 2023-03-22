@@ -1,6 +1,7 @@
 package com.demo.controller;
 import com.demo.service.MailService;
 import com.demo.utils.request.MailDTO;
+import com.demo.utils.response.FeeResponse;
 import com.demo.utils.response.PaymentCustomerReponseDTO;
 import com.demo.utils.response.PaymentResidentResponseDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -50,5 +51,25 @@ public class EmailController {
         PaymentResidentResponseDTO dto1 =  (PaymentResidentResponseDTO) session.getAttribute("InvoiceResident");
         session.removeAttribute("InvoiceResident");
         return new ResponseEntity<>(mailService.invoiceResident(dto.getId_User(), dto1) , HttpStatus.OK);
+    }
+
+    @PostMapping("/feeCustomerExpired")
+    public ResponseEntity<String> feeCustomerExpired(@RequestBody String json, HttpSession session) throws JsonProcessingException
+    {
+        ObjectMapper mapper = new ObjectMapper();
+        MailDTO dto = mapper.readValue(json, MailDTO.class);
+        FeeResponse dto1 =  (FeeResponse) session.getAttribute("FeeCustomerExpired");
+        session.removeAttribute("FeeCustomerExpired");
+        return new ResponseEntity<>(mailService.feeCustomerExpired(dto.getId_User(), dto1) , HttpStatus.OK);
+    }
+
+    @PostMapping("/feeResidentExpired")
+    public ResponseEntity<String> feeResidentExpired(@RequestBody String json, HttpSession session) throws JsonProcessingException
+    {
+        ObjectMapper mapper = new ObjectMapper();
+        MailDTO dto = mapper.readValue(json, MailDTO.class);
+        FeeResponse dto1 =  (FeeResponse) session.getAttribute("FeeResidentExpired");
+        session.removeAttribute("FeeResidentExpired");
+        return new ResponseEntity<>(mailService.feeResidentExpired(dto.getId_User(), dto1) , HttpStatus.OK);
     }
 }

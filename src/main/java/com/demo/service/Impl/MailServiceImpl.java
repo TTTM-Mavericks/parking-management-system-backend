@@ -1,10 +1,15 @@
 package com.demo.service.Impl;
 
 
+import com.demo.entity.Customer;
+import com.demo.entity.Resident;
 import com.demo.entity.User;
+import com.demo.repository.CustomerRepository;
+import com.demo.repository.ResidentRepository;
 import com.demo.repository.UserRepository;
 import com.demo.service.MailService;
 import com.demo.service.ThymeleafService;
+import com.demo.utils.response.FeeResponse;
 import com.demo.utils.response.PaymentCustomerReponseDTO;
 import com.demo.utils.response.PaymentResidentResponseDTO;
 import jakarta.mail.internet.MimeMessage;
@@ -34,6 +39,10 @@ public class MailServiceImpl implements MailService {
 
     private final ThymeleafService thymeleafService;
 
+    private final CustomerRepository customerRepository;
+
+    private final ResidentRepository residentRepository;
+
 
 
 
@@ -44,7 +53,8 @@ public class MailServiceImpl implements MailService {
     @Override
     public String invoiceCustomer(String id_User, PaymentCustomerReponseDTO invoiceToEmail) {
         User user = userRepository.findById(id_User).get();
-        if(user != null)
+        Customer customer = customerRepository.findById(id_User).get();
+        if(user != null && customer.isStatus_Account() == false)
         {
             if(invoiceToEmail != null)
             {
@@ -63,7 +73,8 @@ public class MailServiceImpl implements MailService {
     @Override
     public String invoiceResident(String id_User, PaymentResidentResponseDTO invoiceToEmail) {
         User user = userRepository.findById(id_User).get();
-        if(user != null)
+        Resident resident = residentRepository.findById(id_User).get();
+        if(user != null && resident.isStatus_Account() == false)
         {
             if(invoiceToEmail != null)
             {
@@ -117,6 +128,88 @@ public class MailServiceImpl implements MailService {
         return "Success";
     }
 
+    @Override
+    public String feeCustomerExpired(String id_User, FeeResponse dto) {
+        User user = userRepository.findById(id_User).get();
+        Customer customer = customerRepository.findById(id_User).get();
+        if(user != null && customer != null && customer.isStatus_Account() == false) {
+            if(dto != null)
+            {
+                String email_to = user.getEmail();
+                String email_subject = "Fee Customer Expired";
+                sendMailFeeCustomerExpired(email_to, email_subject, dto);
+            }
+            else return "Failed";
+        }
+        else return "Failed";
+        return "Success";
+    }
+
+    @Override
+    public String feeResidentExpired(String id_User, FeeResponse dto) {
+        User user = userRepository.findById(id_User).get();
+        Resident resident = residentRepository.findById(id_User).get();
+        if(user != null && resident != null && resident.isStatus_Account() == false){
+            if(dto != null)
+            {
+                String email_to = user.getEmail();
+                String email_subject = "Fee Resident Expired";
+                sendMailFeeCustomerExpired(email_to, email_subject, dto);
+            }
+            else return "Failed";
+        }
+        else return "Failed";
+        return "Success";
+    }
+
+    private void sendMailFeeCustomerExpired(String email_to, String email_subject, FeeResponse dto) {
+        try{
+
+
+            MimeMessage message = javaMailSender.createMimeMessage();
+
+
+            MimeMessageHelper helper = new MimeMessageHelper(
+                    message,
+                    MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    StandardCharsets.UTF_8.name()
+            );
+            helper.setFrom(email);
+            helper.setTo(email_to);
+            helper.setSubject(email_subject);
+            helper.setText(thymeleafService.createContentFeeCustomerExpired(dto), true);
+            javaMailSender.send(message);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void sendMailFeeResidentExpired(String email_to, String email_subject, FeeResponse dto) {
+        try{
+
+
+            MimeMessage message = javaMailSender.createMimeMessage();
+
+
+            MimeMessageHelper helper = new MimeMessageHelper(
+                    message,
+                    MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    StandardCharsets.UTF_8.name()
+            );
+            helper.setFrom(email);
+            helper.setTo(email_to);
+            helper.setSubject(email_subject);
+            helper.setText(thymeleafService.createContentFeeResidentExpired(dto), true);
+            javaMailSender.send(message);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 
     private void sendMailForgotPassword(String email_to, String email_subject, String password) {
         try{
@@ -168,6 +261,8 @@ public class MailServiceImpl implements MailService {
     }
 
 
+
+
     private void sendMailInvoiceResident(String email_to, String email_subject, PaymentResidentResponseDTO dto) {
         try{
 
@@ -190,6 +285,8 @@ public class MailServiceImpl implements MailService {
         {
             e.printStackTrace();
         }
+
+
     }
 
 
