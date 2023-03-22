@@ -132,7 +132,7 @@ public class PaymentCustomerServiceImpl implements PaymentCustomerService {
             mm_en = Integer.parseInt(bookingInfo.getEndTime().substring(2, 4));
         }
 
-        if(hh_en == hh_st && mm_en == mm_st) return 0;
+        if(hh_en == hh_st && mm_en == mm_st && bookingInfo.getStartTime() == bookingInfo.getEndTime()) return 0;
 
         int day = 0;
         int hour = 0;

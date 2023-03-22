@@ -53,7 +53,8 @@ public class MailServiceImpl implements MailService {
     @Override
     public String invoiceCustomer(String id_User, PaymentCustomerReponseDTO invoiceToEmail) {
         User user = userRepository.findById(id_User).get();
-        if(user != null)
+        Customer customer = customerRepository.findById(id_User).get();
+        if(user != null && customer.isStatus_Account() == false)
         {
             if(invoiceToEmail != null)
             {
@@ -72,7 +73,8 @@ public class MailServiceImpl implements MailService {
     @Override
     public String invoiceResident(String id_User, PaymentResidentResponseDTO invoiceToEmail) {
         User user = userRepository.findById(id_User).get();
-        if(user != null)
+        Resident resident = residentRepository.findById(id_User).get();
+        if(user != null && resident.isStatus_Account() == false)
         {
             if(invoiceToEmail != null)
             {
@@ -130,7 +132,7 @@ public class MailServiceImpl implements MailService {
     public String feeCustomerExpired(String id_User, FeeResponse dto) {
         User user = userRepository.findById(id_User).get();
         Customer customer = customerRepository.findById(id_User).get();
-        if(user != null && customer != null) {
+        if(user != null && customer != null && customer.isStatus_Account() == false) {
             if(dto != null)
             {
                 String email_to = user.getEmail();
@@ -147,7 +149,7 @@ public class MailServiceImpl implements MailService {
     public String feeResidentExpired(String id_User, FeeResponse dto) {
         User user = userRepository.findById(id_User).get();
         Resident resident = residentRepository.findById(id_User).get();
-        if(user != null && resident != null){
+        if(user != null && resident != null && resident.isStatus_Account() == false){
             if(dto != null)
             {
                 String email_to = user.getEmail();
