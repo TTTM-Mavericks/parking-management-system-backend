@@ -10,8 +10,8 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 @Component
-public class FileFactory {
-    private static final String PATH_TEMPLATE = "Downloads";
+public class FileConfig {
+    public static final String PATH_TEMPLATE = "Downloads";
 
     public static File createFile(String fileName, Workbook workbook) throws Exception
     {
