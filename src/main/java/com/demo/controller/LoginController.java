@@ -36,8 +36,8 @@ public class LoginController {
     }
 
     @GetMapping("/loginGoogle")
-    public RedirectView currentUser(OAuth2AuthenticationToken oAuth2AuthenticationToken) {
-        String url = "http://localhost:3000/loginAccount?";
+    public String currentUser(OAuth2AuthenticationToken oAuth2AuthenticationToken) {
+        String url = "https://web-production-8d68.up.railway.app/https://parking-management-system-deploy-production-d240.up.railway.app/loginAccount?";
         String email = oAuth2AuthenticationToken.getPrincipal().getAttributes().get("email").toString();
         String name = oAuth2AuthenticationToken.getPrincipal().getAttributes().get("name").toString();
         String password = oAuth2AuthenticationToken.getPrincipal().getAttributes().get("at_hash").toString();
@@ -53,6 +53,6 @@ public class LoginController {
         }
 //        UrlUtils.isValidRedirectUrl("http://localhost:6969/user/findAll");
 //         return new ResponseEntity<>(loginService.checkLoginAccount(checkUser.getId(), checkUser.getPassword()), HttpStatus.OK);
-        return new RedirectView(url + "username=" + email + "&password=" + password);
+        return url + "username=" + email + "&password=" + password;
     }
 }
