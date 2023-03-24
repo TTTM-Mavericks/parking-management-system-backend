@@ -1,7 +1,5 @@
 package com.demo.controller;
 
-import com.demo.entity.Customer;
-import com.demo.entity.User;
 import com.demo.repository.CustomerRepository;
 import com.demo.repository.UserRepository;
 import com.demo.service.LoginService;
@@ -9,13 +7,9 @@ import com.demo.utils.response.LoginAPI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.Date;
 
 @RestController
 public class LoginController {
