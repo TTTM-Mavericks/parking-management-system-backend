@@ -40,7 +40,7 @@ public class ExpiredController {
         time = time.replace("\n", "");
         time = time.replace("\t", "");
         time = time.trim();
-        System.out.println(time);
+        System.out.println(time);   
         return new ResponseEntity<>(customerExpiredService.getCustomerFee(id_invoice, time), HttpStatus.CREATED);
     }
 
