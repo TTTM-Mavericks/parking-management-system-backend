@@ -36,22 +36,21 @@ public class LoginController {
 //        System.out.println(username + " " + password);
         return new ResponseEntity<>(loginService.checkLoginAccount(username, password), HttpStatus.OK);
     }
-
-//     @GetMapping("/loginGoogle")
-//     public ResponseEntity<LoginAPI> currentUser(OAuth2AuthenticationToken oAuth2AuthenticationToken){
-//         String email = oAuth2AuthenticationToken.getPrincipal().getAttributes().get("email").toString();
-//         String name = oAuth2AuthenticationToken.getPrincipal().getAttributes().get("name").toString();
-//         String password = oAuth2AuthenticationToken.getPrincipal().getAttributes().get("at_hash").toString();
-//         System.out.println(email);
-//         System.out.println(name);
-//         System.out.println(password);
-//         User user = new User(email, name, password, true, new Date(), email, "0987654321");
-//         User checkUser = userRepository.findCustomerById(email);
-//         if(checkUser == null){
-//             userRepository.save(user);
-//             customerRepository.save(new Customer(email, false, user));
-//             return new ResponseEntity<>(loginService.checkLoginAccount(email, password), HttpStatus.OK);
-//         }
-//         return new ResponseEntity<>(loginService.checkLoginAccount(checkUser.getId(), checkUser.getPassword()), HttpStatus.OK);
-//     }
+    @GetMapping("/loginGoogle")
+     public ResponseEntity<LoginAPI> currentUser(OAuth2AuthenticationToken oAuth2AuthenticationToken){
+         String email = oAuth2AuthenticationToken.getPrincipal().getAttributes().get("email").toString();
+         String name = oAuth2AuthenticationToken.getPrincipal().getAttributes().get("name").toString();
+         String password = oAuth2AuthenticationToken.getPrincipal().getAttributes().get("at_hash").toString();
+         System.out.println(email);
+         System.out.println(name);
+         System.out.println(password);
+         User user = new User(email, name, password, true, new Date(), email, "0987654321");
+         User checkUser = userRepository.findCustomerById(email);
+         if(checkUser == null){
+             userRepository.save(user);
+             customerRepository.save(new Customer(email, false, user));
+             return new ResponseEntity<>(loginService.checkLoginAccount(email, password), HttpStatus.OK);
+         }
+         return new ResponseEntity<>(loginService.checkLoginAccount(checkUser.getId(), checkUser.getPassword()), HttpStatus.OK);
+     }
 }
