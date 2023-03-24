@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +27,7 @@ import java.util.List;
 @RequestMapping("/excel")
 public class ExcelController {
     private final ExcelService excelService;
+    @CrossOrigin(origins = "http://localhost:6969")
     @GetMapping("/export")
     public ResponseEntity<Resource> exportCustomerInvoice() throws Exception
     {

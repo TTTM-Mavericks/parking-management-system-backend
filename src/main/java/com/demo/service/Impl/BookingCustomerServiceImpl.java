@@ -47,7 +47,7 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
 
     public BookingCustomerResponseDTO bookingCustomerResponseDTO;
 
-    public String message;
+    public String message = "";
 
     @Override
     public BookingCustomerResponseDTO save(BookingCustomerDTO dto) {
@@ -66,7 +66,7 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
             if(payment_c != null)
             {
                 Customer_Invoice customer_invoice = invoice_c_repository.findCustomer_Invoice_By_Id_Payment(payment_c.getId_Payment());
-                if(bookingList.size() >= 1 && customer_invoice.isStatus() == false)
+                if(customer_invoice.isStatus() == false)
                 {
                     message = "You have to payment before booking another slot";
                     return null;
@@ -90,13 +90,9 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
                 customerSlot, customerRepository.findById(dto.getIdUser()).get());
 
         double Total_of_Money = calculateTotalOfMoney(customerSlot, booking1);
-        if(Total_of_Money == 0)
-        {
-            message = "Invalid Date Type of DateStart DateEnd StartTime EndTime";
-            return null;
-        }
         customer_slot_repository.save(customerSlot);
         bookingRepository.save(booking1);
+        message = "Customer Booking Successfully";
         bookingCustomerResponseDTO =  new BookingCustomerResponseDTO(booking1.getId_Booking(), dto.getFullname(), dto.getEmail(), dto.getPhone(),
                 dto.getId_Building(), dto.getType_Of_Vehicle(), dto.getId_C_Slot(), dto.getStartDate(),
                 dto.getEndDate(), dto.getStartTime(), dto.getEndTime(), Total_of_Money);
