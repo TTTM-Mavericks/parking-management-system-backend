@@ -1,7 +1,6 @@
 package com.demo.utils.excel;
 
-import com.demo.service.Impl.ExcelServiceImpl;
-import com.demo.utils.excel.dto.InvoiceCustomerExcel;
+import com.demo.utils.request.StatisticDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,19 +26,16 @@ public class ExportConfig {
         exportConfig = new ExportConfig();
         exportConfig.setSheetIndex(0);
         exportConfig.setStartRow(1);
-        exportConfig.setDataClass(InvoiceCustomerExcel.class);
+        exportConfig.setDataClass(StatisticDTO.class);
 
         List<CellConfig> list = new ArrayList<>();
-        list.add(new CellConfig(0, "Id_C_Invoice"));
-        list.add(new CellConfig(1, "Id_Payment"));
-        list.add(new CellConfig(2, "Id_Customer"));
-        list.add(new CellConfig(3, "Total_Of_Money"));
-        list.add(new CellConfig(4, "status_Invoice"));
-        list.add(new CellConfig(5, "Type_Of_Payment"));
-        list.add(new CellConfig(6, "startDate"));
-        list.add(new CellConfig(7, "startTime"));
-        list.add(new CellConfig(8, "endDate"));
-        list.add(new CellConfig(9, "endTime"));
+        list.add(new CellConfig(0, "startDate"));
+        list.add(new CellConfig(1, "endDate"));
+        list.add(new CellConfig(2, "totalOfMoney"));
+        list.add(new CellConfig(3, "numberOfCustomerInvoice"));
+        list.add(new CellConfig(4, "numberOfResidentInvoice"));
+        list.add(new CellConfig(5, "numberOfCustomerInvoiceExpire"));
+        list.add(new CellConfig(6, "numberOfResidentInvoiceExpire"));
 
         exportConfig.setCellExportConfigs(list);
     }

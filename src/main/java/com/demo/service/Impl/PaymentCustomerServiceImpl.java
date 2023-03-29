@@ -272,7 +272,7 @@ public class PaymentCustomerServiceImpl implements PaymentCustomerService {
         //return 0;
     }
 
-    private static boolean checkMonthHave31Days(int mmEn) {
+    public static boolean checkMonthHave31Days(int mmEn) {
         boolean ok = false;
         switch (mmEn)
         {

@@ -1,6 +1,6 @@
 package com.demo.utils.excel;
 
-import com.demo.utils.excel.dto.InvoiceCustomerExcel;
+import com.demo.utils.request.StatisticDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -23,7 +23,7 @@ import static com.demo.utils.excel.FileConfig.PATH_TEMPLATE;
 @Component
 @Slf4j
 public class ExcelConfig {
-    public static ByteArrayInputStream exportCustomer(List<InvoiceCustomerExcel> customers, String fileName) throws  Exception {
+    public static ByteArrayInputStream exportCustomer(List<StatisticDTO>  statistics, String fileName) throws  Exception {
 
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook();
 
@@ -43,7 +43,7 @@ public class ExcelConfig {
         }
 
         //create freeze in excel file
-        XSSFSheet newSheet = xssfWorkbook.createSheet("Customer Invoice");
+        XSSFSheet newSheet = xssfWorkbook.createSheet("Statistic Invoice");
 
         newSheet.createFreezePane(4, 2, 4, 2);
 
@@ -57,7 +57,7 @@ public class ExcelConfig {
         XSSFCellStyle titleCellStyle = xssfWorkbook.createCellStyle();
         titleCellStyle.setAlignment(HorizontalAlignment.CENTER);
         titleCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        titleCellStyle.setFillForegroundColor(IndexedColors.SKY_BLUE.index);
+        titleCellStyle.setFillForegroundColor(IndexedColors.AQUA.index);
         titleCellStyle.setBorderBottom(BorderStyle.MEDIUM);
         titleCellStyle.setBorderLeft(BorderStyle.MEDIUM);
         titleCellStyle.setBorderRight(BorderStyle.MEDIUM);
@@ -85,7 +85,7 @@ public class ExcelConfig {
         insertFieldNameAsTitleToWorkBook(ExportConfig.exportConfig.getCellExportConfigs(),
                 newSheet, titleCellStyle);
         // insert data of fieldName to excel
-        insertDataToWorkBook(xssfWorkbook, ExportConfig.exportConfig, customers, dataCellStyle);
+        insertDataToWorkBook(xssfWorkbook, ExportConfig.exportConfig, statistics, dataCellStyle);
 
         //return
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
