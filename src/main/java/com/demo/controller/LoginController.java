@@ -7,6 +7,7 @@ import com.demo.repository.UserRepository;
 import com.demo.service.CustomerExpiredService;
 import com.demo.service.LoginService;
 import com.demo.service.MailService;
+import com.demo.service.ResidentExpiredService;
 import com.demo.utils.request.BookingCustomerDTO;
 import com.demo.utils.request.BuildingDTO;
 import com.demo.utils.request.MailDTO;
@@ -42,6 +43,8 @@ public class LoginController {
 
     private final CustomerExpiredService customerExpiredService;
 
+    private final ResidentExpiredService residentExpiredService;
+
 
 
     @GetMapping("/loginAccount")
@@ -52,8 +55,8 @@ public class LoginController {
         return new ResponseEntity<>(loginService.checkLoginAccount(username, password), HttpStatus.OK);
     }
 
-    @PostMapping("/checkLoginExpireInvoice")
-    public ResponseEntity<String>checkLoginExpireInvoice(@RequestBody String json) throws JsonProcessingException
+    @PostMapping("/checkLoginCustomerExpireInvoice")
+    public ResponseEntity<String>checkLoginCustomerExpireInvoice(@RequestBody String json) throws JsonProcessingException
     {
         ObjectMapper mapper = new ObjectMapper();
         MailDTO dto = mapper.readValue(json, MailDTO.class);
@@ -65,6 +68,28 @@ public class LoginController {
             for(ExpiredResponse expiredResponse : list)
             {
                 mailService.feeCustomerExpired(customerExpiredService.getCustomerFee(expiredResponse.getId_invoice(), dto.getTime()));
+            }
+            log.info("Have: " +  list.size() + " Expire");
+            return new ResponseEntity<>("Have Expire", HttpStatus.OK);
+        }
+        log.info("No Expire");
+        return new ResponseEntity<>("No Expire", HttpStatus.OK);
+    }
+
+    @PostMapping("/checkLoginResidentExpireInvoice")
+    public ResponseEntity<String>checkLoginResidentExpireInvoice(@RequestBody String json) throws JsonProcessingException
+    {
+        ObjectMapper mapper = new ObjectMapper();
+        MailDTO dto = mapper.readValue(json, MailDTO.class);
+        List<ExpiredResponse> list = residentExpiredService.checkExpired(dto.getId_User(),
+                residentExpiredService.findAllResidentInvoiceByResidentID(dto.getId_User()),
+                dto.getTime());
+        if(list.size() > 0)
+        {
+            for(ExpiredResponse expiredResponse : list)
+            {
+                System.out.println(expiredResponse);
+                mailService.feeResidentExpired(residentExpiredService.getResidentFee(expiredResponse.getId_invoice(), dto.getTime()));
             }
             log.info("Have: " +  list.size() + " Expire");
             return new ResponseEntity<>("Have Expire", HttpStatus.OK);
