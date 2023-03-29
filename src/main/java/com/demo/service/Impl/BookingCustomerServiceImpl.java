@@ -88,7 +88,7 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
         Booking booking1 = new Booking(Long.parseLong(list.size() + 1 + ""),
                 dto.getStartDate(), dto.getEndDate(), dto.getStartTime(), dto.getEndTime(),
                 customerSlot, customerRepository.findById(dto.getIdUser()).get());
-
+        System.out.println(booking1);
         double Total_of_Money = calculateTotalOfMoney(customerSlot, booking1);
         customer_slot_repository.save(customerSlot);
         bookingRepository.save(booking1);

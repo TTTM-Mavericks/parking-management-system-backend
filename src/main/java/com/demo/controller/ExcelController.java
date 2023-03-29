@@ -1,8 +1,8 @@
 package com.demo.controller;
 
-import com.demo.service.ExcelService;
+import com.demo.service.StatisticInvoiceService;
 import com.demo.utils.excel.ExcelConfig;
-import com.demo.utils.excel.dto.InvoiceCustomerExcel;
+import com.demo.utils.request.StatisticDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
@@ -11,10 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.net.URLEncoder;
@@ -26,18 +23,22 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/excel")
 public class ExcelController {
-    private final ExcelService excelService;
+
+    private final StatisticInvoiceService statisticInvoiceService;
     @CrossOrigin(origins = "http://localhost:6969")
     @GetMapping("/export")
-    public ResponseEntity<Resource> exportCustomerInvoice() throws Exception
+    public ResponseEntity<Resource> exportCustomerInvoice(@RequestParam("time") String time) throws Exception
     {
-        List<InvoiceCustomerExcel> customerInvoiceList = excelService.getDataFromMultipleTables();
-
-        if(!CollectionUtils.isEmpty(customerInvoiceList))
+        List<StatisticDTO> statisticList = statisticInvoiceService.ImportStatisticInvoice(time);
+        for(StatisticDTO dto : statisticList)
         {
-            String fileName = "Customer Invoice Export" + ".xlsx";
+            log.info(dto + "");
+        }
+        if(!CollectionUtils.isEmpty(statisticList))
+        {
+            String fileName = "Statistic Invoice Export" + ".xlsx";
 
-            ByteArrayInputStream inputStream = ExcelConfig.exportCustomer(customerInvoiceList, fileName);
+            ByteArrayInputStream inputStream = ExcelConfig.exportCustomer(statisticList, fileName);
 
             InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
 

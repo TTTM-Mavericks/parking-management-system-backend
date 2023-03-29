@@ -57,4 +57,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query
             (value = "update booking set is_checkout = ?1 where id_booking = ?2", nativeQuery = true)
     int updateStatusCheckout(boolean status, Long id_booking);
+
+    @Query
+            (value = "select b.* from booking b where b.is_deleted = 0 and b.is_enabled = 1 and b.is_checkout = 0", nativeQuery = true)
+    List<Booking> getAllBooking();
 }
