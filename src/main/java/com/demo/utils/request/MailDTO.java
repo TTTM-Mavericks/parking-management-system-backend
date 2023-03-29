@@ -9,5 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MailDTO {
     private String id_User;
+
+    private String time;
 }
 

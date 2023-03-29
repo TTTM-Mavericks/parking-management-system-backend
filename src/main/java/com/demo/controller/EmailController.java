@@ -1,4 +1,5 @@
 package com.demo.controller;
+import com.demo.service.CustomerExpiredService;
 import com.demo.service.MailService;
 import com.demo.utils.request.MailDTO;
 import com.demo.utils.request.PaymentCustomerMail;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/mail")
 public class EmailController {
     private final MailService mailService;
+
+    private final CustomerExpiredService customerExpiredService;
 
     @PostMapping("/forgotPassword")
     public ResponseEntity<String> filterRequest(@RequestBody String json) throws JsonProcessingException

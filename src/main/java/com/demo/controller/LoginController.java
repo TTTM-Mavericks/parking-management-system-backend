@@ -4,28 +4,45 @@ import com.demo.entity.Customer;
 import com.demo.entity.User;
 import com.demo.repository.CustomerRepository;
 import com.demo.repository.UserRepository;
+import com.demo.service.CustomerExpiredService;
 import com.demo.service.LoginService;
+import com.demo.service.MailService;
+import com.demo.utils.request.BookingCustomerDTO;
+import com.demo.utils.request.BuildingDTO;
+import com.demo.utils.request.MailDTO;
+import com.demo.utils.response.ExpiredResponse;
+import com.demo.utils.response.FeeResponse;
 import com.demo.utils.response.LoginAPI;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
+@Slf4j
 public class LoginController {
+
     @Autowired
     LoginService loginService;
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    CustomerRepository customerRepository;
+    private  final CustomerRepository customerRepository;
+
+    private final MailService mailService;
+
+    private final CustomerExpiredService customerExpiredService;
+
+
 
     @GetMapping("/loginAccount")
     public ResponseEntity<LoginAPI> checkLogin(@RequestParam("username") String username,
@@ -33,6 +50,27 @@ public class LoginController {
     {
 //        System.out.println(username + " " + password);
         return new ResponseEntity<>(loginService.checkLoginAccount(username, password), HttpStatus.OK);
+    }
+
+    @PostMapping("/checkLoginExpireInvoice")
+    public ResponseEntity<String>checkLoginExpireInvoice(@RequestBody String json) throws JsonProcessingException
+    {
+        ObjectMapper mapper = new ObjectMapper();
+        MailDTO dto = mapper.readValue(json, MailDTO.class);
+        List<ExpiredResponse> list = customerExpiredService.checkExpired(dto.getId_User(),
+                customerExpiredService.findAllCustomerInvoiceByCustomerID(dto.getId_User()),
+                dto.getTime());
+        if(list.size() > 0)
+        {
+            for(ExpiredResponse expiredResponse : list)
+            {
+                mailService.feeCustomerExpired(customerExpiredService.getCustomerFee(expiredResponse.getId_invoice(), dto.getTime()));
+            }
+            log.info("Have: " +  list.size() + " Expire");
+            return new ResponseEntity<>("Have Expire", HttpStatus.OK);
+        }
+        log.info("No Expire");
+        return new ResponseEntity<>("No Expire", HttpStatus.OK);
     }
 
 //    @GetMapping("/loginGoogle")
