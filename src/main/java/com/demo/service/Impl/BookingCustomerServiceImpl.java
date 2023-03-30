@@ -4,6 +4,7 @@ import com.demo.entity.*;
 import com.demo.repository.*;
 import com.demo.service.BookingCustomerService;
 
+import com.demo.service.CustomerExpiredService;
 import com.demo.utils.request.BookingAPI;
 import com.demo.utils.request.BookingCustomerDTO;
 import com.demo.utils.request.BookingDTO;
@@ -49,8 +50,11 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
 
     public String message = "";
 
+    @Autowired
+    CustomerExpiredService cusExpired;
+
     @Override
-    public BookingCustomerResponseDTO save(BookingCustomerDTO dto) {
+    public BookingCustomerResponseDTO save(BookingCustomerDTO dto, String time) {
 
         Customer customer = customerRepository.findById(dto.getIdUser()).get();
         if(customer.isStatus_Account() == true)
@@ -66,6 +70,10 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
             if(payment_c != null)
             {
                 Customer_Invoice customer_invoice = invoice_c_repository.findCustomer_Invoice_By_Id_Payment(payment_c.getId_Payment());
+                if(bookingList.size() >= 1 && cusExpired.checkExpired(customer.getIdUser(), cusExpired.findAllCustomerInvoiceByCustomerID(customer.getIdUser()), time) != null){
+                    message = "You have an expired. Please payment before booking another slot";
+                    return null;
+                }
                 if(customer_invoice.isStatus() == false)
                 {
                     message = "You have to payment before booking another slot";
