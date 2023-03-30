@@ -142,8 +142,8 @@ public class PaymentCustomerServiceImpl implements PaymentCustomerService {
             mm_en = Integer.parseInt(bookingInfo.getEndTime().substring(2, 4));
         }
 
-        if(hh_en == hh_st && mm_en == mm_st && bookingInfo.getStartTime() == bookingInfo.getEndTime()) return 0;
-       if(MM_st < MM_en)
+        if(hh_en == hh_st && mm_en == mm_st && MM_st == MM_en && DD_st == DD_en) return 0;
+        if(MM_st < MM_en)
         {
             boolean check_startMonth_31Days = checkMonthHave31Days(MM_st);
             boolean check_startEnd_31Days = checkMonthHave31Days(MM_en);
@@ -161,6 +161,11 @@ public class PaymentCustomerServiceImpl implements PaymentCustomerService {
                     DD_en += 30;
                 }
             }
+        }
+        if(MM_st > MM_en || (MM_st == MM_en && DD_st > DD_en) || (MM_st == MM_en && DD_st == DD_en && hh_en < hh_st) ||
+                (MM_st == MM_en && DD_st == DD_en && hh_en == hh_st && mm_en < mm_st))
+        {
+            return 0;
         }
         int day = 0;
         int hour = 0;

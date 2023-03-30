@@ -90,6 +90,11 @@ public class BookingCustomerServiceImpl implements BookingCustomerService {
                 customerSlot, customerRepository.findById(dto.getIdUser()).get());
         System.out.println(booking1);
         double Total_of_Money = calculateTotalOfMoney(customerSlot, booking1);
+        if(Total_of_Money == 0)
+        {
+            message = "Invalid StartDate EndDate StartTime EndTime";
+            return null;
+        }
         customer_slot_repository.save(customerSlot);
         bookingRepository.save(booking1);
         message = "Customer Booking Successfully";
