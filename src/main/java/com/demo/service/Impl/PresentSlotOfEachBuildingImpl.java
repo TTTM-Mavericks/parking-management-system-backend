@@ -35,6 +35,21 @@ public class PresentSlotOfEachBuildingImpl implements PresentSlotOfEachBuilding 
     AreaRepository areaRepository;
 
     @Override
+    public List<PresentSlotResponseDto> findAllSlot(String id_Building) {
+        List<PresentSlotResponseDto> list = new ArrayList<>();
+        List<Customer_Slot> listCustomerSlot = customer_slot_repository.findAllSlotOfEachBuilding(id_Building);
+        List<Resident_Slot> listResidentSlot = resident_slot_repository.findAllSlotOfEachBuilding(id_Building);
+        for (int i = 0; i < listCustomerSlot.size(); i++) {
+            Customer_Slot customerSlot = listCustomerSlot.get(i);
+            list.add(new PresentSlotResponseDto(customerSlot.getId_C_Slot(), id_Building, customerSlot.isStatus_Slots()));
+        }
+        for (int i = 0; i < listResidentSlot.size(); i++) {
+            Resident_Slot residentSlot = listResidentSlot.get(i);
+            list.add(new PresentSlotResponseDto(residentSlot.getId_R_Slot(), id_Building, residentSlot.isStatus_Slots()));
+        }
+        return list;
+    }
+    @Override
     public List<PresentSlotResponseDto> findAll(String id_Building, DateDTO dto) {
         List<PresentSlotResponseDto> list = new ArrayList<>();
         List<Customer_Slot> listCustomerSlot = customer_slot_repository.findAllSlotOfEachBuilding(id_Building);
@@ -56,6 +71,8 @@ public class PresentSlotOfEachBuildingImpl implements PresentSlotOfEachBuilding 
         }
         return list;
     }
+
+
 
     private boolean checkSlotisEmpty(DateDTO dto, Customer_Slot customerSlot) {
         List<Booking> bookingList = bookingRepository.findAll();
