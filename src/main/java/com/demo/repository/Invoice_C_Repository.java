@@ -20,6 +20,4 @@ public interface Invoice_C_Repository extends JpaRepository<Customer_Invoice, St
     @Query
    (value = "update customer_invoice set status = ?1 where id_payment = ?2", nativeQuery = true)
     int updateStatusInvoice(boolean status, String id_payment);
-
-    List<Customer_Invoice> findAllById_C_Invoice(String idInvoice);
 }
