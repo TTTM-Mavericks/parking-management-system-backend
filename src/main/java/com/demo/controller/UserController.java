@@ -28,9 +28,6 @@ public class UserController {
     public ResponseEntity<String> createUser(@RequestBody String json) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         UserDTO dto = mapper.readValue(json, UserDTO.class);
-        /*if(userRepository.findById(dto.getId()) != null){
-            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
-        }*/
         return new ResponseEntity<>(userService.createUser(dto), HttpStatus.OK);
     }
     @PutMapping ("/changePassword")
