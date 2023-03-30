@@ -1,5 +1,6 @@
 package com.demo.controller;
 
+import com.demo.repository.UserRepository;
 import com.demo.service.UserService;
 import com.demo.utils.request.ManagerDTO;
 import com.demo.utils.request.UserDTO;
@@ -20,10 +21,16 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    UserRepository userRepository;
+
     @PostMapping("/save")
     public ResponseEntity<String> createUser(@RequestBody String json) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         UserDTO dto = mapper.readValue(json, UserDTO.class);
+        if(userRepository.findById(dto.getId()) != null){
+            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+        }
         return new ResponseEntity<>(userService.createUser(dto), HttpStatus.OK);
     }
     @PutMapping ("/changePassword")
